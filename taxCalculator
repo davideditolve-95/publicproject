@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calcolatore Tasse SRL Avanzato</title>
+    <!-- Caricamento di Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-blue': '#1e40af',
+                        'secondary-slate': '#475569',
+                        'accent-orange': '#f97316',
+                        'tax-red': '#b91c1c',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Stile per nascondere le frecce sugli input di tipo number */
+        input[type=number]::-webkit-outer-spin-button,
+        input[type=number]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans min-h-screen flex items-center justify-center p-4">
+
+    <div class="w-full max-w-2xl bg-white shadow-2xl rounded-xl p-6 md:p-8 border-t-8 border-primary-blue">
+        <h1 class="text-3xl font-extrabold text-primary-blue mb-2 text-center">Calcolatore Fiscale SRL Avanzato</h1>
+        <p class="text-secondary-slate text-center mb-6 text-sm">Simulazione IRES (24.0%), IRAP (3.9%), Tassa Dividendi (26.0%) e IVA.</p>
+
+        <!-- Sezione Input -->
+        <div class="space-y-6">
+
+            <!-- Dati Economici Base -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label for="fatturato" class="block text-sm font-medium text-gray-700 mb-1">Fatturato Totale NETTO IVA (€)</label>
+                    <input type="number" id="fatturato" placeholder="100000" min="0" value="100000"
+                           class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-blue transition duration-150">
+                </div>
+                <div>
+                    <label for="costiOperativi" class="block text-sm font-medium text-gray-700 mb-1">Costi Operativi Fissi NETTI IVA (€)</label>
+                    <input type="number" id="costiOperativi" placeholder="40000" min="0" value="40000"
+                           class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-blue transition duration-150">
+                </div>
+            </div>
+
+            <!-- Tassi IVA -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 border p-3 rounded-lg bg-gray-50">
+                <div>
+                    <label for="tassoIvaVendite" class="block text-sm font-medium text-gray-700 mb-1">IVA Vendite (%)</label>
+                    <input type="number" id="tassoIvaVendite" placeholder="22" min="0" max="100" value="22"
+                           class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-blue transition duration-150">
+                </div>
+                <div>
+                    <label for="tassoIvaAcquisti" class="block text-sm font-medium text-gray-700 mb-1">IVA Acquisti (%)</label>
+                    <input type="number" id="tassoIvaAcquisti" placeholder="22" min="0" max="100" value="22"
+                           class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-blue transition duration-150">
+                </div>
+            </div>
+
+            <!-- Costi Aggiuntivi -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label for="costoCommercialista" class="block text-sm font-medium text-gray-700 mb-1">Costo Commercialista Annuale (€)</label>
+                    <input type="number" id="costoCommercialista" placeholder="2500" min="0" value="2500"
+                           class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-blue transition duration-150">
+                </div>
+                <div>
+                    <label for="numeroSoci" class="block text-sm font-medium text-gray-700 mb-1">Numero Soci per Dividendi</label>
+                    <input type="number" id="numeroSoci" placeholder="1" min="1" value="1" oninput="aggiornaSoci()"
+                           class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-blue transition duration-150">
+                </div>
+            </div>
+            
+            <!-- Costi Mensili Dedotti (Dinamico) -->
+            <div class="border p-4 rounded-lg bg-indigo-50/50">
+                <h3 class="text-lg font-bold text-gray-700 mb-3 flex justify-between items-center">
+                    Costi Mensili Dedotti (Totali) NETTI IVA
+                    <button onclick="aggiungiCostoMensile()" class="text-sm bg-accent-orange text-white px-3 py-1 rounded-full hover:bg-orange-600 transition duration-150 shadow-md">
+                        + Aggiungi Costo
+                    </button>
+                </h3>
+                <div id="containerCostiMensili" class="space-y-3">
+                    <!-- I costi verranno inseriti qui dal JS -->
+                </div>
+                <div id="costoTemplate" class="hidden">
+                    <div class="flex flex-col md:flex-row gap-2 items-center cost-row p-2 bg-white rounded-md border border-gray-200">
+                        <input type="text" placeholder="Descrizione (es. Telefono)" class="w-full md:w-2/5 p-2 border border-gray-300 rounded-lg text-sm cost-desc">
+                        <input type="number" placeholder="Valore Mensile (€)" min="0" value="100" class="w-full md:w-1/5 p-2 border border-gray-300 rounded-lg text-sm cost-val" oninput="calcolaTasse()">
+                        <div class="flex items-center w-full md:w-2/5">
+                            <input type="number" placeholder="Deducibilità (%)" min="0" max="100" value="80" class="w-3/5 p-2 border border-gray-300 rounded-l-lg text-sm cost-deducibilita" oninput="calcolaTasse()">
+                            <span class="w-1/5 bg-gray-200 text-center py-2 text-sm text-gray-600">%</span>
+                            <button onclick="rimuoviCostoMensile(this)" class="w-1/5 bg-red-500 hover:bg-red-600 text-white p-2 rounded-r-lg text-sm transition duration-150" title="Rimuovi Costo">
+                                &times;
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Distribuzione Dividendi (Dinamico) -->
+            <div class="border p-4 rounded-lg bg-green-50/50">
+                <h3 class="text-lg font-bold text-gray-700 mb-3">Distribuzione Dividendi (Lordo per Socio)</h3>
+                <div id="containerDividendi" class="space-y-3">
+                    <!-- Gli input per i dividendi verranno inseriti qui dal JS -->
+                </div>
+            </div>
+            
+            <p id="alertDividendi" class="text-sm text-red-500 hidden">
+                Attenzione: La somma dei dividendi lordi supera l'Utile Post Imposte Societarie.
+            </p>
+
+        </div>
+
+        <!-- Bottone di Calcolo (attiva il calcolo, ma è anche automatico) -->
+        <button id="calcolaBtn" onclick="calcolaTasse()"
+                class="w-full mt-6 bg-primary-blue hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition duration-300 shadow-md hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-primary-blue/50">
+            Ricalcola Tasse e Utile
+        </button>
+        
+        <!-- Messaggio di Errore -->
+        <div id="erroreMsg" class="mt-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg hidden" role="alert">
+            <!-- Messaggio di errore mostrato qui -->
+        </div>
+
+        <!-- Sezione Risultati -->
+        <div id="risultati" class="mt-6 space-y-3 p-4 bg-gray-100 rounded-xl border border-gray-300 hidden">
+            
+            <!-- Riepilogo Societario -->
+            <h2 class="text-xl font-bold text-gray-800 border-b pb-2 mb-3">Riepilogo Fiscale Societario</h2>
+
+            <div class="flex justify-between items-center text-gray-600">
+                <span class="font-medium">Utile Lordo (Prima delle Imposte)</span>
+                <span id="utileLordoValore" class="font-semibold text-lg text-secondary-slate">€ 0.00</span>
+            </div>
+            
+            <div class="flex justify-between items-center text-primary-blue border-t pt-3">
+                <span class="font-medium">IRAP (3.9% sulla Base Imponibile)</span>
+                <span id="irapValore" class="font-bold text-lg">€ 0.00</span>
+            </div>
+
+            <div class="flex justify-between items-center text-primary-blue">
+                <span class="font-medium">IRES (24.0% sulla Base Imponibile)</span>
+                <span id="iresValore" class="font-bold text-lg">€ 0.00</span>
+            </div>
+
+            <div class="flex justify-between items-center text-gray-700 border-t pt-3">
+                <span class="text-lg font-bold">Utile Post Imposte Societarie</span>
+                <span id="utilePostImposteSocietarie" class="text-xl font-extrabold text-green-700">€ 0.00</span>
+            </div>
+            
+            <!-- Riepilogo IVA (Nuova Sezione) -->
+            <h2 class="text-xl font-bold text-gray-800 border-b pb-2 mt-4 text-green-700">Riepilogo IVA (Annuali)</h2>
+            <p class="text-xs text-gray-500 mb-2">L'IVA non incide sul calcolo dell'Utile Lordo, ma rappresenta un versamento separato.</p>
+
+            <div class="bg-white p-3 rounded-lg border-l-4 border-green-600 shadow-sm">
+                <div class="flex justify-between text-sm text-gray-700">
+                    <span>IVA a Debito (su Fatturato)</span>
+                    <span id="ivaADebito" class="font-bold text-red-600">€ 0.00</span>
+                </div>
+                <div class="flex justify-between text-sm text-gray-700">
+                    <span>IVA a Credito (su Acquisti Deducibili)</span>
+                    <span id="ivaACredito" class="font-bold text-green-600">€ 0.00</span>
+                </div>
+                <div class="flex justify-between text-sm text-gray-800 border-t pt-2 mt-2">
+                    <span class="font-bold">IVA Annuale da Versare (a Debito - a Credito)</span>
+                    <span id="ivaDaVersare" class="font-extrabold text-lg text-tax-red">€ 0.00</span>
+                </div>
+            </div>
+
+            <!-- Pagamenti F24 (Saldo e Acconto) -->
+            <h2 class="text-xl font-bold text-gray-800 border-b pb-2 mt-4 text-tax-red">Pagamenti Fiscali (F24)</h2>
+
+            <div class="bg-white p-3 rounded-lg border-l-4 border-tax-red shadow-sm">
+                <h3 class="font-semibold text-gray-800 mb-2">1. Saldo Imposte Anno Corrente (AC)</h3>
+                <div class="flex justify-between text-sm text-gray-700">
+                    <span>Saldo IRES AC (100% dell'imposta)</span>
+                    <span id="saldoIres" class="font-bold text-red-600">€ 0.00</span>
+                </div>
+                <div class="flex justify-between text-sm text-gray-700">
+                    <span>Saldo IRAP AC (100% dell'imposta)</span>
+                    <span id="saldoIrap" class="font-bold text-red-600">€ 0.00</span>
+                </div>
+                <div class="flex justify-between text-sm text-gray-800 border-t pt-2 mt-2">
+                    <span class="font-bold">Totale Saldo AC</span>
+                    <span id="totaleSaldo" class="font-extrabold text-lg text-red-700">€ 0.00</span>
+                </div>
+            </div>
+
+            <div class="bg-white p-3 rounded-lg border-l-4 border-yellow-600 shadow-sm">
+                <h3 class="font-semibold text-gray-800 mb-2">2. Acconto Imposte Anno Successivo (AS)</h3>
+                <p class="text-xs text-gray-500 mb-2">Si assume acconto del 100% dell'imposta corrente (metodo storico).</p>
+                
+                <div class="flex justify-between text-sm text-gray-700">
+                    <span>Acconto IRES (1a Rata 40%)</span>
+                    <span id="accontoIresRata1" class="font-bold text-yellow-700">€ 0.00</span>
+                </div>
+                <div class="flex justify-between text-sm text-gray-700">
+                    <span>Acconto IRES (2a Rata 60%)</span>
+                    <span id="accontoIresRata2" class="font-bold text-yellow-700">€ 0.00</span>
+                </div>
+                <div class="flex justify-between text-sm text-gray-700 mt-2 border-t pt-2">
+                    <span>Totale Acconto IRAP (Unica/Prima Rata)</span>
+                    <span id="accontoIrapTotale" class="font-bold text-yellow-700">€ 0.00</span>
+                </div>
+            </div>
+
+
+            <!-- Distribuzione Dividendi -->
+            <h2 class="text-xl font-bold text-gray-800 border-b pb-2 mt-4">Distribuzione Dividendi e Rimanenza</h2>
+
+            <div class="flex justify-between items-center text-gray-600">
+                <span class="font-medium">Totale Dividendi Lordi Distribuiti</span>
+                <span id="dividendiDistribuitiValore" class="font-semibold text-lg text-accent-orange">€ 0.00</span>
+            </div>
+
+             <div class="flex justify-between items-center text-gray-600 border-b pb-2">
+                <span class="font-medium">Ritenuta Fiscale Totale (26.0%)</span>
+                <span id="impostaDividendiValore" class="font-semibold text-md text-red-500">€ 0.00</span>
+            </div>
+            
+            <div id="dividendiNettiPerSocioContainer" class="space-y-1 mt-2 p-2 bg-green-50 rounded-lg">
+                 <h4 class="font-bold text-green-700 text-sm">Importi Netti per Socio:</h4>
+                 <!-- Dettagli netti per socio verranno inseriti qui -->
+            </div>
+
+            <div class="flex justify-between items-center text-green-600 border-t-2 border-dashed pt-4">
+                <span class="text-lg font-bold">Utile Rimanente in Azienda (Cash Flow)</span>
+                <span id="utileRimanenteValore" class="text-2xl font-extrabold">€ 0.00</span>
+            </div>
+
+        </div>
+        
+        <p class="text-xs text-center text-gray-400 mt-6 pt-4 border-t border-gray-100">
+            Disclaimer: Simulazione semplificata. Consultare un commercialista per calcoli esatti.
+        </p>
+    </div>
+
+    <script>
+        // Tassi Fissi
+        const TASSO_IRES = 0.24; // 24.0%
+        const TASSO_IRAP = 0.039; // 3.9% (Tasso medio di esempio)
+        const TASSO_DIVIDENDI = 0.26; // 26.0% (Flat tax/Imposta sostitutiva)
+
+        const containerCostiMensili = document.getElementById('containerCostiMensili');
+        const containerDividendi = document.getElementById('containerDividendi');
+        const fatturatoInput = document.getElementById('fatturato');
+        const costiOperativiInput = document.getElementById('costiOperativi');
+        const costoCommercialistaInput = document.getElementById('costoCommercialista');
+        const numeroSociInput = document.getElementById('numeroSoci');
+        
+        // Nuovi input IVA
+        const tassoIvaVenditeInput = document.getElementById('tassoIvaVendite');
+        const tassoIvaAcquistiInput = document.getElementById('tassoIvaAcquisti');
+
+        /**
+         * Formatta un numero come valuta Euro italiana.
+         * @param {number} value Il valore numerico da formattare.
+         * @returns {string} La stringa formattata.
+         */
+        function formattaEuro(value) {
+            return value.toLocaleString('it-IT', {
+                style: 'currency',
+                currency: 'EUR',
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+        }
+
+        /**
+         * Aggiunge dinamicamente una riga per l'inserimento di un costo mensile deducibile.
+         */
+        function aggiungiCostoMensile() {
+            const template = document.getElementById('costoTemplate').firstElementChild.cloneNode(true);
+            
+            // Rimuovi la classe 'hidden' dalla riga clonata
+            template.classList.remove('hidden'); 
+            
+            // Aggiungi un listener di input per l'intera riga (perché contiene più input)
+            template.querySelectorAll('input').forEach(input => {
+                input.addEventListener('input', calcolaTasse);
+            });
+
+            containerCostiMensili.appendChild(template);
+            calcolaTasse(); // Ricalcola dopo l'aggiunta
+        }
+        
+        /**
+         * Rimuove la riga del costo mensile cliccata.
+         * @param {HTMLElement} btn Il bottone 'Rimuovi' cliccato.
+         */
+        function rimuoviCostoMensile(btn) {
+            const row = btn.closest('.cost-row');
+            if (row) {
+                row.remove();
+                calcolaTasse(); // Ricalcola dopo la rimozione
+            }
+        }
+
+        /**
+         * Aggiorna gli input per i dividendi in base al numero di soci.
+         */
+        function aggiornaSoci() {
+            const numSoci = parseInt(numeroSociInput.value) || 0;
+            containerDividendi.innerHTML = ''; // Pulisci la sezione
+
+            if (numSoci < 1) {
+                numeroSociInput.value = 1; // Forza a 1
+                return;
+            }
+
+            for (let i = 1; i <= numSoci; i++) {
+                const div = document.createElement('div');
+                div.className = 'flex items-center gap-4';
+                div.innerHTML = `
+                    <label for="dividendoSocio${i}" class="block text-sm font-medium text-gray-600 mb-1 w-1/3">Dividendo Socio ${i} Lordo (€)</label>
+                    <input type="number" id="dividendoSocio${i}" placeholder="0" min="0" value="0"
+                           class="w-2/3 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 transition duration-150 dividendo-input" 
+                           data-socio-id="${i}">
+                `;
+                containerDividendi.appendChild(div);
+            }
+
+            // Aggiungi listener agli input dei dividendi
+            document.querySelectorAll('.dividendo-input').forEach(input => {
+                input.addEventListener('input', calcolaTasse);
+            });
+            calcolaTasse(); // Ricalcola dopo l'aggiornamento
+        }
+
+        /**
+         * Esegue il calcolo delle tasse IRES, IRAP, IVA e Dividendi.
+         */
+        function calcolaTasse() {
+            const risultatiDiv = document.getElementById('risultati');
+            const erroreMsgDiv = document.getElementById('erroreMsg');
+            const alertDividendi = document.getElementById('alertDividendi');
+            const dividendiNettiPerSocioContainer = document.getElementById('dividendiNettiPerSocioContainer');
+
+            // 1. Reset
+            risultatiDiv.classList.add('hidden');
+            erroreMsgDiv.classList.add('hidden');
+            alertDividendi.classList.add('hidden');
+            dividendiNettiPerSocioContainer.innerHTML = '<h4 class="font-bold text-green-700 text-sm">Importi Netti per Socio:</h4>'; // Reset soci
+
+            const fatturato = parseFloat(fatturatoInput.value) || 0;
+            const costiOperativi = parseFloat(costiOperativiInput.value) || 0;
+            const costoCommercialista = parseFloat(costoCommercialistaInput.value) || 0;
+            
+            const tassoIvaVendite = (parseFloat(tassoIvaVenditeInput.value) || 0) / 100;
+            const tassoIvaAcquisti = (parseFloat(tassoIvaAcquistiInput.value) || 0) / 100;
+
+            // 2. Calcolo Totale Costi Deducibili Mensili
+            let totaleCostiMensiliDeducibili = 0;
+            const costiRighe = containerCostiMensili.querySelectorAll('.cost-row');
+
+            costiRighe.forEach(riga => {
+                const costoVal = parseFloat(riga.querySelector('.cost-val').value) || 0;
+                const deducibilita = parseFloat(riga.querySelector('.cost-deducibilita').value) / 100 || 0;
+                
+                // Si assume che il costo sia annuale: (costo mensile * 12) * deducibilità
+                const costoAnnuale = costoVal * 12;
+                totaleCostiMensiliDeducibili += costoAnnuale * deducibilita;
+            });
+
+            // 3. Calcolo Totale Costi e Utile Lordo (Base Imponibile IRES/IRAP)
+            const totaleCostiDeducibili = costiOperativi + costoCommercialista + totaleCostiMensiliDeducibili;
+            const utileLordo = fatturato - totaleCostiDeducibili;
+            
+            // 4. Calcolo Imposte Societarie
+            
+            // La base imponibile per le imposte non può essere negativa
+            const baseImponibileGenerica = Math.max(0, utileLordo); 
+
+            // IRAP (Semplificazione: stessa base imponibile)
+            const irap = baseImponibileGenerica * TASSO_IRAP;
+
+            // Utile al netto di IRAP (per calcolo IRES)
+            const utilePrimaIres = utileLordo - irap;
+
+            // IRES (Base Imponibile IRES)
+            const baseImponibileIres = Math.max(0, utilePrimaIres);
+            const ires = baseImponibileIres * TASSO_IRES;
+
+            // Utile Netto Societario
+            const utilePostImposteSocietarie = utileLordo - irap - ires;
+
+            // 5. Calcolo IVA (Importi NETTI inseriti)
+            const ivaADebito = fatturato * tassoIvaVendite;
+            // Si calcola l'IVA a credito solo sui costi totalmente deducibili a fini fiscali
+            const ivaACredito = totaleCostiDeducibili * tassoIvaAcquisti;
+            const ivaDaVersare = ivaADebito - ivaACredito;
+            
+            // 6. Calcolo Saldo e Acconto Tasse (AC = Anno Corrente, AS = Anno Successivo)
+            
+            // SALDO (Si assume 100% dell'imposta come Saldo, con acconti precedenti = 0)
+            const saldoIres = ires;
+            const saldoIrap = irap;
+            const totaleSaldo = saldoIres + saldoIrap;
+            
+            // ACCONTO ANNO SUCCESSIVO (Metodo storico: 100% dell'imposta AC)
+            const accontoIresRata1 = ires * 0.4;
+            const accontoIresRata2 = ires * 0.6;
+            const accontoIrapTotale = irap * 1.0; 
+
+            // 7. Calcolo Distribuzione Dividendi (Lordi e Netti)
+            let totaleDividendiLordi = 0;
+            const sociNetti = [];
+
+            document.querySelectorAll('.dividendo-input').forEach(input => {
+                const dividendoLordo = parseFloat(input.value) || 0;
+                totaleDividendiLordi += dividendoLordo;
+                
+                // Calcolo netto per socio
+                const ritenuta = dividendoLordo * TASSO_DIVIDENDI;
+                const dividendoNetto = dividendoLordo - ritenuta;
+                const socioId = input.dataset.socioId;
+
+                sociNetti.push({
+                    id: socioId,
+                    lordo: dividendoLordo,
+                    netto: dividendoNetto
+                });
+            });
+            
+            const impostaDividendiTotale = totaleDividendiLordi * TASSO_DIVIDENDI;
+            
+            // 8. Utile Rimanente in Azienda (Considerando il saldo IVA)
+            // Sottraggo l'IVA da versare (se positiva) o la aggiungo (se a credito, negativa).
+            let utileRimanente = utilePostImposteSocietarie - totaleDividendiLordi - ivaDaVersare;
+
+            // 9. Validazione Utile vs. Dividendi
+            if (totaleDividendiLordi > utilePostImposteSocietarie) {
+                alertDividendi.classList.remove('hidden');
+            }
+
+            // 10. Aggiornamento dell'Interfaccia Utente
+            
+            // Dati Societari
+            document.getElementById('utileLordoValore').textContent = formattaEuro(utileLordo);
+            document.getElementById('irapValore').textContent = formattaEuro(irap);
+            document.getElementById('iresValore').textContent = formattaEuro(ires);
+            document.getElementById('utilePostImposteSocietarie').textContent = formattaEuro(utilePostImposteSocietarie);
+
+            // Riepilogo IVA
+            document.getElementById('ivaADebito').textContent = formattaEuro(ivaADebito);
+            document.getElementById('ivaACredito').textContent = formattaEuro(ivaACredito);
+            const ivaDaVersareSpan = document.getElementById('ivaDaVersare');
+            ivaDaVersareSpan.textContent = formattaEuro(ivaDaVersare);
+            ivaDaVersareSpan.classList.remove('text-tax-red', 'text-green-700');
+            if (ivaDaVersare > 0) {
+                ivaDaVersareSpan.classList.add('text-tax-red');
+            } else {
+                ivaDaVersareSpan.classList.add('text-green-700');
+            }
+
+            // Pagamenti F24
+            document.getElementById('saldoIres').textContent = formattaEuro(saldoIres);
+            document.getElementById('saldoIrap').textContent = formattaEuro(saldoIrap);
+            document.getElementById('totaleSaldo').textContent = formattaEuro(totaleSaldo);
+            document.getElementById('accontoIresRata1').textContent = formattaEuro(accontoIresRata1);
+            document.getElementById('accontoIresRata2').textContent = formattaEuro(accontoIresRata2);
+            document.getElementById('accontoIrapTotale').textContent = formattaEuro(accontoIrapTotale);
+            
+            // Dividendi
+            document.getElementById('dividendiDistribuitiValore').textContent = formattaEuro(totaleDividendiLordi);
+            document.getElementById('impostaDividendiValore').textContent = formattaEuro(impostaDividendiTotale);
+            
+            // Dividendi Netti per Socio (Dinamico)
+            sociNetti.forEach(socio => {
+                const p = document.createElement('p');
+                p.className = 'flex justify-between text-sm text-green-700 ml-2';
+                p.innerHTML = `
+                    <span>Socio ${socio.id} Netto</span>
+                    <span class="font-bold">${formattaEuro(socio.netto)}</span>
+                `;
+                dividendiNettiPerSocioContainer.appendChild(p);
+            });
+            
+            // Utile Rimanente
+            const utileRimanenteSpan = document.getElementById('utileRimanenteValore');
+            utileRimanenteSpan.textContent = formattaEuro(utileRimanente);
+            if (utileRimanente < 0) {
+                utileRimanenteSpan.classList.add('text-red-600');
+                utileRimanenteSpan.classList.remove('text-green-600');
+            } else {
+                utileRimanenteSpan.classList.remove('text-red-600');
+                utileRimanenteSpan.classList.add('text-green-600');
+            }
+            
+            risultatiDiv.classList.remove('hidden');
+        }
+
+        // Funzioni di Inizializzazione
+        window.onload = function() {
+            // Imposta i listener per gli input statici
+            [fatturatoInput, costiOperativiInput, costoCommercialistaInput, tassoIvaVenditeInput, tassoIvaAcquistiInput].forEach(input => {
+                input.addEventListener('input', calcolaTasse);
+            });
+            
+            // Inizializza le sezioni dinamiche
+            aggiornaSoci();
+            aggiungiCostoMensile(); // Aggiunge una riga iniziale di esempio
+            
+            // Esegui il calcolo iniziale con i valori di default
+            calcolaTasse();
+        };
+    </script>
+</body>
+</html>
