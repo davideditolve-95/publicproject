@@ -1,0 +1,100 @@
+/* Custom Utilities */
+.glass-nav {
+    background: rgba(252, 252, 253, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* Dark Mode Glass */
+.dark .glass-nav {
+    background: rgba(5, 5, 5, 0.85);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.glass-card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.text-gradient {
+    background: linear-gradient(135deg, #7B3EFF 0%, #171717 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Layout Stability (Explicit Control) */
+#desktop-sidebar {
+    display: none;
+    /* Default hidden on mobile */
+}
+
+@media (min-width: 1024px) {
+    #desktop-sidebar {
+        display: flex !important;
+    }
+
+    header.lg\:hidden {
+        display: none !important;
+    }
+
+    main.lg\:ml-72 {
+        margin-left: 18rem !important;
+    }
+
+    footer.lg\:ml-72 {
+        margin-left: 18rem !important;
+    }
+}
+
+@media (max-width: 1023.98px) {
+    #desktop-sidebar {
+        display: none !important;
+    }
+
+    main.lg\:ml-72 {
+        margin-left: 0 !important;
+    }
+
+    footer.lg\:ml-72 {
+        margin-left: 0 !important;
+    }
+}
+
+/* Scroll Snap & Transitions */
+html {
+    scroll-behavior: smooth;
+    scroll-snap-type: y mandatory;
+}
+
+section,
+footer {
+    transition: background-color 0.5s ease, color 0.5s ease;
+    scroll-snap-align: start;
+}
+
+/* Reveal Animation Classes */
+.reveal {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 1s cubic-bezier(0.5, 0, 0, 1);
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.delay-100 {
+    transition-delay: 0.1s;
+}
+
+.delay-200 {
+    transition-delay: 0.2s;
+}
+
+.delay-300 {
+    transition-delay: 0.3s;
+}
