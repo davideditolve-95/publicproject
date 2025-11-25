@@ -1,409 +1,737 @@
 <!DOCTYPE html>
 <html lang="it" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Artefacta Studio</title>
-    
+    <title>Artefacta Studio | Art & Behavioral Strategy</title>
+    <meta name="description"
+        content="Artefacta Studio unisce arte e psicologia comportamentale per trasformare la percezione e generare valore. Strategia, curatela e innovazione.">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.artefactastudio.it/">
+    <meta property="og:title" content="Artefacta Studio | Art & Behavioral Strategy">
+    <meta property="og:description"
+        content="Trasformiamo la percezione e generiamo valore attraverso la strategia comportamentale e l'arte.">
+    <meta property="og:image"
+        content="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2070&auto=format&fit=crop">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.artefactastudio.it/">
+    <meta property="twitter:title" content="Artefacta Studio | Art & Behavioral Strategy">
+    <meta property="twitter:description"
+        content="Trasformiamo la percezione e generiamo valore attraverso la strategia comportamentale e l'arte.">
+    <meta property="twitter:image"
+        content="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2070&auto=format&fit=crop">
+
     <!-- Script Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Font Inter -->
+
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
-    
-    <style>
-        /* Stili per evidenziare il link di navigazione attivo */
-        .nav-link.active {
-            color: #7B3EFF;
-            font-weight: 600;
-        }
-    </style>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
 
-    <script>
-        // Configurazione personalizzata di Tailwind con la palette del cliente
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'brand-dark': '#0D0D0D',
-                        'brand-gray-dark': '#2F3237',
-                        'brand-gray-light': '#C3C6CD',
-                        'brand-light': '#FCFCFD',
-                        'brand-purple': '#7B3EFF',
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="bg-brand-light text-brand-dark font-sans antialiased">
 
-    <!-- ==== HEADER / NAVBAR ==== -->
-    <header class="bg-brand-light/95 backdrop-blur-sm sticky top-0 z-50 shadow-sm">
-        <nav class="container mx-auto max-w-7xl px-6 py-4 flex justify-between items-center">
-            <!-- Logo (Nero su Bianco) -->
-            <a href="#home" class="flex-shrink-0">
-                <img src="completo nero bianco.jpg" 
-                     alt="Logo Artefacta Studio" 
-                     class="h-10 md:h-12 w-auto"
-                     onerror="this.onerror=null;this.src='https://placehold.co/200x50/FCFCFD/0D0D0D?text=Artefacta+Studio';">
+<body
+    class="bg-brand-white text-brand-black font-sans antialiased selection:bg-brand-purple selection:text-white dark:bg-brand-black dark:text-brand-white transition-colors duration-500">
+
+    <!-- ==== NAVIGATION ==== -->
+    <!-- Mobile Header (Visible only on small screens) -->
+    <header class="lg:hidden fixed w-full top-0 z-50 transition-all duration-300 glass-nav" id="mobile-navbar">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <!-- Logo -->
+            <a href="#home" class="relative z-50 group">
+                <img src="logo e scritta nero viola.jpg" alt="Artefacta Studio Logo" class="h-10 w-auto object-contain"
+                    onerror="this.onerror=null;this.src='https://placehold.co/200x50/transparent/0D0D0D?text=ARTEFACTA';">
             </a>
-            
-            <!-- Nav Links Desktop -->
-            <div class="hidden md:flex space-x-6 lg:space-x-8 items-center">
-                <a href="#chi-siamo" class="nav-link text-gray-700 hover:text-brand-purple transition-colors duration-200">Chi Siamo</a>
-                <a href="#cos-e-artefacta" class="nav-link text-gray-700 hover:text-brand-purple transition-colors duration-200">Cos'è Artefacta</a>
-                <a href="#arte-per-impresa" class="nav-link text-gray-700 hover:text-brand-purple transition-colors duration-200">Arte per l'Impresa</a>
-                <a href="#art-be" class="nav-link text-gray-700 hover:text-brand-purple transition-colors duration-200">Art & BE</a>
-                <a href="#artisti" class="nav-link text-gray-700 hover:text-brand-purple transition-colors duration-200">Artisti</a>
-                <a href="#pubblicazioni" class="nav-link text-gray-700 hover:text-brand-purple transition-colors duration-200">Pubblicazioni</a>
-                <a href="#contatti" class="bg-brand-purple text-white px-5 py-2 rounded-full font-semibold hover:bg-opacity-90 transition-all duration-200 shadow-md">Contatti</a>
-            </div>
-            
-            <!-- Mobile Menu Button -->
-            <div class="md:hidden">
-                <button id="mobile-menu-button" class="text-brand-dark focus:outline-none">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-                    </svg>
-                </button>
-            </div>
+            <!-- Mobile Toggle -->
+            <button id="mobile-toggle" class="text-brand-black focus:outline-none" aria-label="Toggle Menu">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16m-7 6h7">
+                    </path>
+                </svg>
+            </button>
         </nav>
-        
-        <!-- Mobile Menu (nascosto di default) -->
-        <div id="mobile-menu" class="md:hidden hidden bg-brand-light shadow-xl absolute top-full left-0 right-0 z-40">
-            <a href="#chi-siamo" class="nav-link-mobile block px-6 py-3 text-gray-700 hover:bg-gray-100">Chi Siamo</a>
-            <a href="#cos-e-artefacta" class="nav-link-mobile block px-6 py-3 text-gray-700 hover:bg-gray-100">Cos'è Artefacta</a>
-            <a href="#arte-per-impresa" class="nav-link-mobile block px-6 py-3 text-gray-700 hover:bg-gray-100">Arte per l'Impresa</a>
-            <a href="#art-be" class="nav-link-mobile block px-6 py-3 text-gray-700 hover:bg-gray-100">Art & BE</a>
-            <a href="#artisti" class="nav-link-mobile block px-6 py-3 text-gray-700 hover:bg-gray-100">Artisti</a>
-            <a href="#pubblicazioni" class="nav-link-mobile block px-6 py-3 text-gray-700 hover:bg-gray-100">Pubblicazioni</a>
-            <a href="#contatti" class="nav-link-mobile block px-6 py-3 text-gray-700 hover:bg-gray-100">Contatti</a>
-        </div>
     </header>
 
-    <!-- ==== MAIN CONTENT ==== -->
-    <main>
+    <!-- Desktop Sidebar (Visible only on large screens) -->
+    <aside id="desktop-sidebar"
+        class="hidden lg:flex flex-col fixed inset-y-0 left-0 z-50 w-72 bg-brand-white/90 dark:bg-brand-black/90 backdrop-blur-xl border-r border-brand-black/5 dark:border-white/10 h-screen justify-between py-10 px-8 transition-all duration-300">
+        <!-- Logo -->
+        <div class="flex-shrink-0">
+            <a href="#home" class="block group">
+                <img src="logo e scritta nero viola.jpg" alt="Artefacta Studio Logo"
+                    class="h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                    onerror="this.onerror=null;this.src='https://placehold.co/200x50/transparent/0D0D0D?text=ARTEFACTA';">
+            </a>
+        </div>
 
-        <!-- 0. Hero Section -->
-        <section id="home" class="min-h-screen flex items-center justify-center text-center px-6 pt-16 pb-20 relative overflow-hidden" style="background-image: linear-gradient(160deg, #2F3237 0%, #0D0D0D 100%);">
-            <!-- Sfondo con gradiente viola -->
-            <div class="absolute top-0 left-0 w-full h-full opacity-30" style="background-image: radial-gradient(circle at 30% 107%, #7B3EFF 0%, rgba(123, 62, 255, 0) 50%)"></div>
-            <div class="relative z-10 max-w-4xl">
-                <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold text-brand-light leading-tight">
-                    L’opera d’arte non è l’oggetto, <br class="hidden md:block"> ma ciò che l’oggetto fa al mondo
-                </h1>
-                <p class="mt-6 text-lg md:text-xl text-brand-gray-light max-w-2xl mx-auto">
-                    Benvenuti in Artefacta Studio, dove l'arte incontra la strategia per trasformare la percezione e generare valore.
-                </p>
-                <a href="#cos-e-artefacta" class="mt-10 inline-block bg-brand-purple text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-opacity-90 transition-all duration-200 shadow-lg transform hover:scale-105">
-                    Scopri di più
-                </a>
+        <!-- Navigation Links -->
+        <nav class="flex flex-col space-y-6">
+            <a href="#chi-siamo"
+                class="text-lg font-medium text-brand-dark dark:text-brand-gray hover:text-brand-purple transition-colors flex items-center group">
+                <span
+                    class="w-8 h-[1px] bg-brand-dark/30 dark:bg-brand-gray/30 mr-3 group-hover:w-12 group-hover:bg-brand-purple transition-all duration-300"></span>
+                Chi Siamo
+            </a>
+            <a href="#cos-e-artefacta"
+                class="text-lg font-medium text-brand-dark dark:text-brand-gray hover:text-brand-purple transition-colors flex items-center group">
+                <span
+                    class="w-8 h-[1px] bg-brand-dark/30 dark:bg-brand-gray/30 mr-3 group-hover:w-12 group-hover:bg-brand-purple transition-all duration-300"></span>
+                Cos'è Artefacta
+            </a>
+            <a href="#arte-per-impresa"
+                class="text-lg font-medium text-brand-dark dark:text-brand-gray hover:text-brand-purple transition-colors flex items-center group">
+                <span
+                    class="w-8 h-[1px] bg-brand-dark/30 dark:bg-brand-gray/30 mr-3 group-hover:w-12 group-hover:bg-brand-purple transition-all duration-300"></span>
+                Business
+            </a>
+            <a href="#art-be"
+                class="text-lg font-medium text-brand-dark dark:text-brand-gray hover:text-brand-purple transition-colors flex items-center group">
+                <span
+                    class="w-8 h-[1px] bg-brand-dark/30 dark:bg-brand-gray/30 mr-3 group-hover:w-12 group-hover:bg-brand-purple transition-all duration-300"></span>
+                Art & BE
+            </a>
+            <a href="#artisti"
+                class="text-lg font-medium text-brand-dark dark:text-brand-gray hover:text-brand-purple transition-colors flex items-center group">
+                <span
+                    class="w-8 h-[1px] bg-brand-dark/30 dark:bg-brand-gray/30 mr-3 group-hover:w-12 group-hover:bg-brand-purple transition-all duration-300"></span>
+                Artisti
+            </a>
+        </nav>
+
+        <!-- CTA & Social -->
+        <div class="flex flex-col space-y-6">
+            <a href="#contatti"
+                class="w-full py-3 bg-brand-black text-white text-center text-sm font-semibold rounded-full hover:bg-brand-purple transition-all duration-300 shadow-lg hover:shadow-brand-purple/30">
+                Contattaci
+            </a>
+
+            <!-- Theme Toggle Placeholder -->
+            <button id="theme-toggle-desktop"
+                class="flex items-center justify-center space-x-2 text-sm font-medium text-brand-dark dark:text-brand-gray hover:text-brand-purple transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z">
+                    </path>
+                </svg>
+                <span>Dark Mode</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu"
+        class="fixed inset-0 bg-brand-white dark:bg-brand-black z-50 transform translate-x-full transition-transform duration-300 flex flex-col justify-center items-center space-y-8 lg:hidden">
+        <button id="close-menu" class="absolute top-6 right-6 text-brand-black dark:text-brand-white"
+            aria-label="Close Menu">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+        <a href="#chi-siamo"
+            class="text-2xl font-serif text-brand-black dark:text-brand-white hover:text-brand-purple mobile-link">Chi
+            Siamo</a>
+        <a href="#cos-e-artefacta"
+            class="text-2xl font-serif text-brand-black dark:text-brand-white hover:text-brand-purple mobile-link">Il
+            Metodo</a>
+        <a href="#arte-per-impresa"
+            class="text-2xl font-serif text-brand-black dark:text-brand-white hover:text-brand-purple mobile-link">Per
+            le Imprese</a>
+        <a href="#artisti"
+            class="text-2xl font-serif text-brand-black dark:text-brand-white hover:text-brand-purple mobile-link">Artisti</a>
+        <a href="#contatti" class="text-xl font-bold text-brand-purple mobile-link">Contattaci</a>
+
+        <!-- Mobile Theme Toggle -->
+        <button id="theme-toggle-mobile"
+            class="flex items-center space-x-2 text-lg font-medium text-brand-dark dark:text-brand-gray mt-8">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+            </svg>
+            <span>Dark Mode</span>
+        </button>
+    </div>
+
+    <main class="lg:ml-72 transition-all duration-300">
+        <!-- ==== HERO SECTION ==== -->
+        <section id="home"
+            class="relative h-screen flex items-center justify-center overflow-hidden bg-brand-black snap-start">
+            <!-- Background Elements -->
+            <div class="absolute inset-0 opacity-20">
+                <img src="https://images.unsplash.com/photo-1547891654-e66ed7ebb968?q=80&w=2070&auto=format&fit=crop"
+                    alt="Abstract Art Background" class="w-full h-full object-cover">
             </div>
-        </section>
+            <div class="absolute inset-0 bg-gradient-to-b from-brand-black/40 via-brand-black/80 to-brand-black"></div>
 
-        <!-- 1. Chi Siamo -->
-        <section id="chi-siamo" class="py-20 md:py-32 bg-brand-gray-dark text-brand-gray-light">
-            <div class="container mx-auto max-w-5xl px-6 text-center">
-                <h2 class="text-base font-semibold text-brand-purple uppercase tracking-wider">Chi Siamo</h2>
-                <p class="mt-3 text-3xl md:text-4xl font-bold text-brand-light">Un team di creativi e strateghi</p>
-                <div class="mt-12 grid md:grid-cols-2 gap-12 text-left">
-                    <div>
-                        <h3 class="text-2xl font-semibold text-brand-light">La Fondatrice</h3>
-                        <p class="mt-4 text-lg text-brand-gray-light leading-relaxed">
-                            Testo segnaposto per la biografia della fondatrice. Qui verranno descritti il suo background, la sua passione per l'arte e la sua visione che ha portato alla nascita di Artefacta Studio.
-                        </p>
-                    </div>
-                    <div>
-                        <h3 class="text-2xl font-semibold text-brand-light">I Collaboratori</h3>
-                        <p class="mt-4 text-lg text-brand-gray-light leading-relaxed">
-                            Testo segnaposto per le biografie delle persone che collaborano. Artisti, curatori, psicologi comportamentali e altri professionisti che arricchiscono il network di Artefacta.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 2. Cos'è Artefacta -->
-        <section id="cos-e-artefacta" class="py-20 md:py-32 bg-brand-light">
-            <div class="container mx-auto max-w-5xl px-6">
-                <div class="text-center">
-                    <h2 class="text-base font-semibold text-brand-purple uppercase tracking-wider">Cos'è Artefacta</h2>
-                    <p class="mt-3 text-3xl md:text-4xl font-bold text-brand-dark">Il nostro approccio unico</p>
-                </div>
-                <div class="mt-16 grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <!-- Card Origine -->
-                    <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-100">
-                        <h3 class="text-xl font-semibold text-brand-dark">Origine del Nome</h3>
-                        <p class="mt-3 text-brand-gray-dark">Testo segnaposto che spiega l'etimologia e il concetto dietro il nome "Artefacta".</p>
-                    </div>
-                    <!-- Card Mission -->
-                    <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-100">
-                        <h3 class="text-xl font-semibold text-brand-dark">Mission</h3>
-                        <p class="mt-3 text-brand-gray-dark">Testo segnaposto sulla missione dello studio: connettere il mondo dell'arte con quello delle imprese e delle istituzioni.</p>
-                    </div>
-                    <!-- Card Vision -->
-                    <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-100">
-                        <h3 class="text-xl font-semibold text-brand-dark">Vision</h3>
-                        <p class="mt-3 text-brand-gray-dark">Testo segnaposto sulla visione a lungo termine e l'impatto che Artefacta vuole generare nel mondo.</p>
-                    </div>
-                    <!-- Card Behavioral -->
-                    <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-100 md:col-span-2 lg:col-span-3">
-                        <h3 class="text-xl font-semibold text-brand-dark">Behavioral Economics e Creatività</h3>
-                        <p class="mt-3 text-brand-gray-dark">Testo segnaposto che approfondisce l'interazione della behavioral economics nel processo creativo, spiegando come le intuizioni sul comportamento umano guidino le strategie e le opere.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 3. Arte per l'Impresa -->
-        <section id="arte-per-impresa" class="py-20 md:py-32 bg-white">
-            <div class="container mx-auto max-w-5xl px-6 grid md:grid-cols-2 gap-12 items-center">
-                <div>
-                    <img src="https://placehold.co/600x400/7B3EFF/FCFCFD?text=Arte+in+Azienda" alt="Arte per l'Impresa" class="rounded-xl shadow-lg">
-                </div>
-                <div>
-                    <h2 class="text-base font-semibold text-brand-purple uppercase tracking-wider">Arte per l'Impresa</h2>
-                    <p class="mt-3 text-3xl md:text-4xl font-bold text-brand-dark">La Devianza Creativa come Risorsa</p>
-                    <p class="mt-6 text-lg text-brand-gray-dark leading-relaxed">
-                        Testo segnaposto sul concetto di "devianza creativa" e come questa possa diventare un vantaggio strategico per le aziende.
+            <div class="container mx-auto px-6 relative z-10">
+                <div class="max-w-4xl">
+                    <h1 class="font-serif text-5xl md:text-7xl lg:text-8xl text-brand-white mb-8 leading-tight reveal">
+                        L'arte <br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-purple to-brand-gray">non
+                            è l’oggetto.</span>
+                    </h1>
+                    <p
+                        class="text-xl md:text-2xl text-brand-gray/80 font-light max-w-2xl leading-relaxed mb-12 reveal delay-200">
+                        È ciò che l’oggetto fa al mondo. Trasformiamo la percezione e generiamo valore attraverso la
+                        strategia comportamentale e l'arte.
                     </p>
-                    <p class="mt-4 text-lg text-brand-gray-dark leading-relaxed">
-                        Approfondimento su cosa sia una residenza d'artista in azienda, i processi implementati e i benefici tangibili e intangibili per i dipendenti e per il brand.
-                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 reveal delay-300">
+                        <a href="#cos-e-artefacta"
+                            class="group relative px-8 py-4 bg-brand-purple text-white rounded-full overflow-hidden inline-flex items-center justify-center">
+                            <span
+                                class="absolute inset-0 w-full h-full bg-brand-purpleDark transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300 ease-out"></span>
+                            <span class="relative font-semibold tracking-wide">Esplora la Visione</span>
+                        </a>
+                        <a href="#arte-per-impresa"
+                            class="px-8 py-4 border border-brand-white/30 text-brand-white rounded-full hover:bg-brand-white hover:text-brand-black transition-all duration-300 text-center font-medium">
+                            Servizi per le Imprese
+                        </a>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- 4. Art & BE -->
-        <section id="art-be" class="py-20 md:py-32 bg-brand-light">
-            <div class="container mx-auto max-w-5xl px-6 grid md:grid-cols-2 gap-12 items-center">
-                <div class="md:order-2">
-                    <img src="https://placehold.co/600x400/2F3237/FCFCFD?text=Art+%26+BE" alt="Arte e Behavioral Economics" class="rounded-xl shadow-lg">
-                </div>
-                <div class="md:order-1">
-                    <h2 class="text-base font-semibold text-brand-purple uppercase tracking-wider">Art & BE</h2>
-                    <p class="mt-3 text-3xl md:text-4xl font-bold text-brand-dark">Migliorare la Fruizione dell'Arte</p>
-                    <p class="mt-6 text-lg text-brand-gray-dark leading-relaxed">
-                        Testo segnaposto su come la Behavioral Economics possa migliorare l'esperienza e la fruizione dell'arte.
-                    </p>
-                    <p class="mt-4 text-lg text-brand-gray-dark leading-relaxed">
-                        Spiegazione del "nudging culturale" e della struttura di consulenza offerta a istituzioni culturali, gallerie, fondazioni e organizzazioni per ottimizzare l'engagement del pubblico.
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <!-- 5. Gli Artisti di Artefacta -->
-        <section id="artisti" class="py-20 md:py-32 bg-brand-gray-dark text-brand-gray-light">
+        <!-- ==== CHI SIAMO ==== -->
+        <section id="chi-siamo"
+            class="h-screen flex flex-col justify-center bg-brand-white dark:bg-brand-black relative snap-start">
             <div class="container mx-auto max-w-7xl px-6">
-                <div class="text-center max-w-3xl mx-auto">
-                    <h2 class="text-base font-semibold text-brand-purple uppercase tracking-wider">Gli Artisti</h2>
-                    <p class="mt-3 text-3xl md:text-4xl font-bold text-brand-light">La nostra rete di talenti</p>
-                    <p class="mt-4 text-lg text-brand-gray-light leading-relaxed">
-                        Una selezione di artisti che collaborano con Artefacta Studio. (Sezione soggetta a consensi).
-                    </p>
-                </div>
-                <div class="mt-16 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                    <!-- Artista 1 -->
-                    <div class="text-center">
-                        <img src="https://placehold.co/400x400/C3C6CD/0D0D0D?text=Artista+1" alt="Foto Artista 1" class="rounded-full w-48 h-48 mx-auto shadow-lg object-cover border-4 border-brand-gray-dark hover:border-brand-purple transition-all duration-300">
-                        <h3 class="mt-6 text-xl font-semibold text-brand-light">Nome Artista 1</h3>
-                        <p class="text-brand-purple">Disciplina (es. Pittura, Scultura)</p>
+                <div class="grid md:grid-cols-12 gap-12 lg:gap-20">
+
+                    <div class="md:col-span-5 reveal">
+                        <h2 class="font-serif text-4xl md:text-5xl text-brand-black dark:text-brand-white mb-6">Chi
+                            Siamo</h2>
+                        <div class="w-16 h-1 bg-brand-purple mb-8"></div>
+                        <p class="text-brand-dark dark:text-brand-gray text-lg leading-relaxed mb-6">
+                            Siamo un collettivo di strateghi, curatori e psicologi comportamentali. Crediamo che l'arte
+                            non sia solo estetica, ma un potente driver di cambiamento cognitivo.
+                        </p>
                     </div>
-                    <!-- Artista 2 -->
-                    <div class="text-center">
-                        <img src="https://placehold.co/400x400/C3C6CD/0D0D0D?text=Artista+2" alt="Foto Artista 2" class="rounded-full w-48 h-48 mx-auto shadow-lg object-cover border-4 border-brand-gray-dark hover:border-brand-purple transition-all duration-300">
-                        <h3 class="mt-6 text-xl font-semibold text-brand-light">Nome Artista 2</h3>
-                        <p class="text-brand-purple">Disciplina (es. Arte Digitale)</p>
-                    </div>
-                    <!-- Artista 3 -->
-                    <div class="text-center">
-                        <img src="https://placehold.co/400x400/C3C6CD/0D0D0D?text=Artista+3" alt="Foto Artista 3" class="rounded-full w-48 h-48 mx-auto shadow-lg object-cover border-4 border-brand-gray-dark hover:border-brand-purple transition-all duration-300">
-                        <h3 class="mt-6 text-xl font-semibold text-brand-light">Nome Artista 3</h3>
-                        <p class="text-brand-purple">Disciplina (es. Performance)</p>
-                    </div>
-                    <!-- Artista 4 -->
-                    <div class="text-center">
-                        <img src="https://placehold.co/400x400/C3C6CD/0D0D0D?text=Artista+4" alt="Foto Artista 4" class="rounded-full w-48 h-48 mx-auto shadow-lg object-cover border-4 border-brand-gray-dark hover:border-brand-purple transition-all duration-300">
-                        <h3 class="mt-6 text-xl font-semibold text-brand-light">Nome Artista 4</h3>
-                        <p class="text-brand-purple">Disciplina (es. Fotografia)</p>
+                    <div class="md:col-span-7 grid gap-8 sm:grid-cols-2 reveal delay-200">
+                        <!-- Founder Card -->
+                        <div
+                            class="bg-gray-50 dark:bg-white/5 p-8 rounded-2xl hover:shadow-xl transition-shadow duration-300 border border-gray-100 dark:border-white/10">
+                            <h3 class="font-serif text-2xl text-brand-black dark:text-brand-white mb-2">La Fondatrice
+                            </h3>
+                            <p class="text-sm text-brand-purple font-bold tracking-wide uppercase mb-4">Vision &
+                                Strategy</p>
+                            <p class="text-brand-dark/70">
+                                Una biografia sintetica ma potente che delinea il percorso professionale e l'intuizione
+                                che ha dato vita ad Artefacta Studio.
+                            </p>
+                        </div>
+                        <!-- Team Card -->
+                        <div
+                            class="bg-brand-black dark:border dark:border-white/10 p-8 rounded-2xl text-brand-white hover:shadow-2xl transition-shadow duration-300 relative overflow-hidden group">
+                            <div
+                                class="absolute top-0 right-0 w-32 h-32 bg-brand-purple rounded-full filter blur-[60px] opacity-20 group-hover:opacity-40 transition-opacity">
+                            </div>
+                            <h3 class="font-serif text-2xl text-brand-white mb-2">Il Network</h3>
+                            <p class="text-sm text-brand-gray font-bold tracking-wide uppercase mb-4">Collaboratori</p>
+                            <p class="text-brand-gray/70">
+                                Professionisti multidisciplinari che uniscono creatività e analisi dati per creare
+                                esperienze uniche e misurabili.
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 6. Articoli e Pubblicazioni -->
-        <section id="pubblicazioni" class="py-20 md:py-32 bg-brand-light">
-            <div class="container mx-auto max-w-5xl px-6">
-                <div class="text-center max-w-3xl mx-auto">
-                    <h2 class="text-base font-semibold text-brand-purple uppercase tracking-wider">Pubblicazioni</h2>
-                    <p class="mt-3 text-3xl md:text-4xl font-bold text-brand-dark">Approfondimenti e Ricerche</p>
-                    <p class="mt-4 text-lg text-brand-gray-dark leading-relaxed">
-                        Esplora i nostri contributi, articoli e tesi che approfondiscono i temi chiave del nostro lavoro.
-                    </p>
+        <!-- ==== COS'È ARTEFACTA (Dark Section) ==== -->
+        <section id="cos-e-artefacta"
+            class="h-screen flex flex-col justify-center bg-brand-dark text-brand-white relative overflow-hidden snap-start">
+            <!-- Decorative Elements -->
+            <div
+                class="absolute left-0 bottom-0 w-full h-px bg-gradient-to-r from-transparent via-brand-purple to-transparent opacity-50">
+            </div>
+
+            <div class="container mx-auto max-w-7xl px-6 relative z-10">
+                <div class="text-center max-w-3xl mx-auto mb-20 reveal">
+                    <span class="text-brand-purple font-semibold tracking-widest text-xs uppercase">Il
+                        Nostro DNA</span>
+                    <h2 class="font-serif text-4xl md:text-6xl mt-4 mb-6">Artefacta: <br>Oltre
+                        la superficie</h2>
                 </div>
-                <div class="mt-16 flow-root">
-                    <ul role="list" class="-my-8 divide-y divide-brand-gray-light/50">
-                        <!-- Articolo 1 -->
-                        <li class="py-8">
-                            <div class="flex space-x-6">
-                                <div>
-                                    <span class="inline-flex items-center justify-center h-12 w-12 rounded-full bg-brand-purple text-white font-semibold">1</span>
-                                </div>
-                                <div class="flex-1">
-                                    <h3 class="text-xl font-semibold text-brand-dark">Titolo Articolo Artribune</h3>
-                                    <p class="mt-2 text-brand-gray-dark">Breve descrizione dell'articolo e del suo contenuto. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                    <a href="#" target="_blank" class="mt-3 inline-block text-brand-purple font-semibold hover:underline">Leggi l'articolo &rarr;</a>
-                                </div>
-                            </div>
-                        </li>
-                        <!-- Articolo 2 -->
-                        <li class="py-8">
-                            <div class="flex space-x-6">
-                                <div>
-                                    <span class="inline-flex items-center justify-center h-12 w-12 rounded-full bg-brand-purple text-white font-semibold">2</span>
-                                </div>
-                                <div class="flex-1">
-                                    <h3 class="text-xl font-semibold text-brand-dark">Tesi di Margherita</h3>
-                                    <p class="mt-2 text-brand-gray-dark">Presentazione della tesi di ricerca, il suo abstract e i temi principali trattati. Lorem ipsum dolor sit amet.</p>
-                                    <a href="#" target="_blank" class="mt-3 inline-block text-brand-purple font-semibold hover:underline">Scarica la tesi &rarr;</a>
-                                </div>
-                            </li>
-                        <!-- Articolo 3 -->
-                        <li class="py-8">
-                            <div class="flex space-x-6">
-                                <div>
-                                    <span class="inline-flex items-center justify-center h-12 w-12 rounded-full bg-brand-purple text-white font-semibold">3</span>
-                                </div>
-                                <div class="flex-1">
-                                    <h3 class="text-xl font-semibold text-brand-dark">Altra Pubblicazione Rilevante</h3>
-                                    <p class="mt-2 text-brand-gray-dark">Descrizione di un altro contributo, intervista o pubblicazione. Lorem ipsum dolor sit amet, consectetur.</p>
-                                    <a href="#" target="_blank" class="mt-3 inline-block text-brand-purple font-semibold hover:underline">Leggi tutto &rarr;</a>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Card 1 -->
+                    <div
+                        class="glass-card p-10 rounded-xl hover:-translate-y-2 transition-transform duration-300 reveal delay-100">
+                        <div
+                            class="w-12 h-12 rounded-full bg-brand-purple/20 flex items-center justify-center text-brand-purple mb-6">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z">
+                                </path>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-serif mb-4">Origine</h3>
+                        <p class="text-brand-gray font-light">
+                            Il nome nasce dall'unione di "Arte" e "Fatto". La concretezza
+                            dell'opera che incontra
+                            l'astrazione del pensiero.
+                        </p>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div
+                        class="glass-card p-10 rounded-xl border-brand-purple/30 hover:-translate-y-2 transition-transform duration-300 reveal delay-200">
+                        <div
+                            class="w-12 h-12 rounded-full bg-brand-purple flex items-center justify-center text-white mb-6 shadow-lg shadow-brand-purple/30">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-serif mb-4">Mission</h3>
+                        <p class="text-brand-gray font-light">
+                            Creare ponti inediti tra cultura e impresa. Usare la bellezza come
+                            strumento di nudging per
+                            comportamenti virtuosi.
+                        </p>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div
+                        class="glass-card p-10 rounded-xl hover:-translate-y-2 transition-transform duration-300 reveal delay-300">
+                        <div
+                            class="w-12 h-12 rounded-full bg-brand-purple/20 flex items-center justify-center text-brand-purple mb-6">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z">
+                                </path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
+                                </path>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-serif mb-4">Vision</h3>
+                        <p class="text-brand-gray font-light">
+                            Un mondo dove l'arte non è decorazione, ma infrastruttura cognitiva
+                            per l'innovazione
+                            sociale ed economica.
+                        </p>
+                    </div>
+                </div>
+
+                <div
+                    class="mt-20 p-8 border border-brand-white/10 rounded-2xl bg-gradient-to-r from-brand-black to-brand-dark reveal">
+                    <div class="md:flex items-center gap-8">
+                        <div class="md:w-1/3 mb-6 md:mb-0">
+                            <h3 class="text-3xl font-serif text-brand-purple">Behavioral
+                                <br>Economics
+                            </h3>
+                        </div>
+                        <div class="md:w-2/3 border-l border-brand-white/10 pl-0 md:pl-8">
+                            <p class="text-brand-gray text-lg leading-relaxed">
+                                Integriamo le scienze comportamentali nel processo creativo.
+                                Analizziamo come le persone
+                                prendono decisioni irrazionali e usiamo l'arte per guidare
+                                (nudge) verso scelte migliori
+                                e ispirate.
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
+
+        <!-- ==== ARTE PER L'IMPRESA ==== -->
+        <section id="arte-per-impresa"
+            class="h-screen flex flex-col justify-center bg-brand-white dark:bg-brand-black snap-start">
+            <div class="container mx-auto max-w-7xl px-6">
+                <div class="flex flex-col lg:flex-row items-center gap-16">
+                    <div class="lg:w-1/2 relative reveal">
+                        <!-- Image Composition -->
+                        <div class="relative z-10 rounded-2xl overflow-hidden shadow-2xl">
+                            <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop"
+                                alt="Corporate Art" class="w-full object-cover">
+                        </div>
+                        <div
+                            class="absolute -bottom-10 -left-10 w-40 h-40 bg-brand-black z-0 rounded-2xl hidden md:block">
+                        </div>
+                        <div
+                            class="absolute -top-5 -right-5 w-24 h-24 border-2 border-brand-purple rounded-full z-20 hidden md:block">
+                        </div>
+                    </div>
+
+                    <div class="lg:w-1/2 reveal delay-100">
+                        <h2 class="font-serif text-4xl md:text-5xl text-brand-black dark:text-brand-white mb-6">Arte
+                            per
+                            l'Impresa</h2>
+                        <h3 class="text-2xl text-brand-purple font-medium mb-6">La "Devianza
+                            Creativa"</h3>
+                        <p class="text-brand-dark/80 text-lg leading-relaxed mb-6">
+                            La normalità è nemica dell'innovazione. Introduciamo in azienda il
+                            concetto di devianza
+                            creativa: rompere gli schemi cognitivi standard per sbloccare nuove
+                            prospettive di business.
+                        </p>
+
+                        <div class="space-y-6 mt-8">
+                            <div class="flex items-start">
+                                <div
+                                    class="flex-shrink-0 w-10 h-10 rounded-full bg-brand-purple/10 flex items-center justify-center text-brand-purple mt-1">
+                                    <span class="font-bold">1</span>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="text-xl font-bold text-brand-black dark:text-brand-white">Residenze
+                                        d'Artista Corporate</h4>
+                                    <p class="text-brand-dark/60 mt-1">Portiamo l'artista nel
+                                        cuore
+                                        dell'azienda per
+                                        contaminare i processi produttivi.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div
+                                    class="flex-shrink-0 w-10 h-10 rounded-full bg-brand-purple/10 flex items-center justify-center text-brand-purple mt-1">
+                                    <span class="font-bold">2</span>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="text-xl font-bold text-brand-black dark:text-brand-white">Employee
+                                        Engagement</h4>
+                                    <p class="text-brand-dark/60 mt-1">Benefici tangibili sul
+                                        benessere e sulla capacità
+                                        di problem solving dei dipendenti.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==== ART & BE ==== -->
+        <section id="art-be" class="h-screen flex flex-col justify-center bg-gray-50 dark:bg-brand-dark snap-start">
+            <div class="container mx-auto max-w-7xl px-6">
+                <div class="flex flex-col lg:flex-row-reverse items-center gap-16">
+                    <div class="lg:w-1/2 reveal">
+                        <img src="https://images.unsplash.com/photo-1518998053901-5348d3969105?q=80&w=1974&auto=format&fit=crop"
+                            alt="Museum Visitor"
+                            class="rounded-2xl shadow-2xl hover:scale-105 transition-all duration-700">
+                    </div>
+                    <div class="lg:w-1/2 reveal delay-100">
+                        <h2 class="font-serif text-4xl md:text-5xl text-brand-black dark:text-brand-white mb-6">Art &
+                            BE
+                        </h2>
+                        <p class="text-lg text-brand-dark/80 mb-8">
+                            Come la <strong>Behavioral Economics</strong> può migliorare la
+                            fruizione dell’arte?
+                            Applichiamo il "Nudging Culturale" per istituzioni, gallerie e
+                            fondazioni.
+                        </p>
+                        <ul class="space-y-4 border-l-2 border-brand-purple pl-6">
+                            <li class="bg-white p-4 rounded-lg shadow-sm">
+                                <strong class="block text-brand-purple">Ottimizzazione dei
+                                    Percorsi</strong>
+                                <span class="text-sm text-brand-dark/70">Progettazione di flussi
+                                    museali basati
+                                    sull'attenzione reale dei visitatori.</span>
+                            </li>
+                            <li class="bg-white p-4 rounded-lg shadow-sm">
+                                <strong class="block text-brand-purple">Engagement
+                                    Emotivo</strong>
+                                <span class="text-sm text-brand-dark/70">Tecniche per aumentare
+                                    la
+                                    ritenzione delle
+                                    informazioni e l'impatto emotivo.</span>
+                            </li>
+                            <li class="bg-white p-4 rounded-lg shadow-sm">
+                                <strong class="block text-brand-purple">Struttura di
+                                    Consulenza</strong>
+                                <span class="text-sm text-brand-dark/70">Supporto strategico per
+                                    curatori e direttori
+                                    museali.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==== ARTISTI ==== -->
+        <section id="artisti"
+            class="h-screen flex flex-col justify-center bg-brand-white dark:bg-brand-black snap-start">
+            <div class="container mx-auto max-w-7xl px-6">
+                <div class="text-center mb-16 reveal">
+                    <h2 class="font-serif text-4xl md:text-5xl text-brand-black dark:text-brand-white mb-4">I Nostri
+                        Artisti
+                    </h2>
+                    <div class="w-24 h-1 bg-brand-purple mx-auto"></div>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Artist 1 -->
+                    <div class="group relative overflow-hidden rounded-xl cursor-pointer reveal delay-100">
+                        <div class="aspect-[3/4]">
+                            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=1888&auto=format&fit=crop"
+                                alt="Elena R."
+                                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        </div>
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-brand-black/90 via-brand-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-8">
+                            <h3
+                                class="text-2xl font-serif text-white mb-1 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                                Elena R.</h3>
+                            <p
+                                class="text-brand-purple text-sm font-bold uppercase tracking-wider transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-75">
+                                Pittura Materica</p>
+                            <p
+                                class="text-gray-300 text-sm mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                                Esplorazione della texture e del colore come linguaggio emotivo.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Artist 2 -->
+                    <div class="group relative overflow-hidden rounded-xl cursor-pointer reveal delay-200">
+                        <div class="aspect-[3/4]">
+                            <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=1887&auto=format&fit=crop"
+                                alt="Marco V."
+                                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        </div>
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-brand-black/90 via-brand-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-8">
+                            <h3
+                                class="text-2xl font-serif text-white mb-1 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                                Marco V.</h3>
+                            <p
+                                class="text-brand-purple text-sm font-bold uppercase tracking-wider transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-75">
+                                Scultura Cinetica</p>
+                            <p
+                                class="text-gray-300 text-sm mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                                Opere che interagiscono con lo spazio e il movimento dello
+                                spettatore.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Artist 3 -->
+                    <div class="group relative overflow-hidden rounded-xl cursor-pointer reveal delay-300">
+                        <div class="aspect-[3/4]">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1964&auto=format&fit=crop"
+                                alt="Sofia L."
+                                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        </div>
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-brand-black/90 via-brand-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-8">
+                            <h3
+                                class="text-2xl font-serif text-white mb-1 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                                Sofia L.</h3>
+                            <p
+                                class="text-brand-purple text-sm font-bold uppercase tracking-wider transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-75">
+                                Digital Art</p>
+                            <p
+                                class="text-gray-300 text-sm mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                                Installazioni immersive che fondono codice e percezione visiva.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==== PUBBLICAZIONI ==== -->
+        <section id="pubblicazioni"
+            class="h-screen flex flex-col justify-center bg-gray-50 dark:bg-brand-dark snap-start">
+            <div class="container mx-auto max-w-7xl px-6">
+                <div class="text-center mb-16 reveal">
+                    <h2 class="font-serif text-4xl md:text-5xl text-brand-black dark:text-brand-white mb-4">
+                        Pubblicazioni</h2>
+                    <div class="w-24 h-1 bg-brand-purple mx-auto"></div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="order-2 md:order-1 reveal">
+                        <h3 class="text-3xl font-serif text-brand-black dark:text-brand-white mb-6">Arte e
+                            Neuroscienze: Un
+                            Dialogo Possibile</h3>
+                        <p class="text-brand-dark/80 text-lg leading-relaxed mb-6">
+                            Il nostro ultimo volume esplora le connessioni tra l'esperienza
+                            estetica e i
+                            processi neurali.
+                            Una raccolta di saggi, casi studio e interviste che definiscono il
+                            nuovo
+                            orizzonte della
+                            neuroestetica applicata.
+                        </p>
+                        <ul class="space-y-3 mb-8">
+                            <li class="flex items-center text-brand-dark/70">
+                                <svg class="w-5 h-5 text-brand-purple mr-3" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                Prefazione di Marco Rossi
+                            </li>
+                            <li class="flex items-center text-brand-dark/70">
+                                <svg class="w-5 h-5 text-brand-purple mr-3" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                12 Case Studies Internazionali
+                            </li>
+                            <li class="flex items-center text-brand-dark/70">
+                                <svg class="w-5 h-5 text-brand-purple mr-3" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                Disponibile in formato cartaceo e digitale
+                            </li>
+                        </ul>
+                        <a href="#"
+                            class="inline-flex items-center px-8 py-3 bg-brand-black text-white rounded-full hover:bg-brand-purple transition-colors duration-300">
+                            Scarica l'Estratto Gratuito
+                            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4">
+                                </path>
+                            </svg>
+                        </a>
+                    </div>
+                    <div class="order-1 md:order-2 flex justify-center reveal delay-100">
+                        <div class="relative">
+                            <div class="absolute inset-0 bg-brand-purple blur-[60px] opacity-20 transform rotate-12">
+                            </div>
+                            <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=1887&auto=format&fit=crop"
+                                alt="Book Cover"
+                                class="relative z-10 w-64 md:w-80 rounded shadow-2xl transform hover:-rotate-2 transition-transform duration-500">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==== CONTATTI (FOOTER) ==== -->
+        <footer id="contatti"
+            class="h-screen flex flex-col justify-center bg-brand-black text-brand-white relative overflow-hidden snap-start">
+            <!-- Background Elements -->
+            <div
+                class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-purple via-brand-gray to-brand-purple">
+            </div>
+            <div
+                class="absolute -bottom-32 -right-32 w-96 h-96 bg-brand-purple rounded-full filter blur-[100px] opacity-20">
+            </div>
+
+            <div class="container mx-auto max-w-7xl px-6 relative z-10">
+                <div class="grid md:grid-cols-2 gap-16 lg:gap-24">
+                    <!-- Contact Info -->
+                    <div class="reveal">
+                        <div class="flex items-center space-x-3 mb-10">
+                            <div class="w-10 h-10 bg-brand-purple rounded-full flex items-center justify-center">
+                                <span class="font-serif text-xl font-bold text-white">A</span>
+                            </div>
+                            <span class="font-serif text-2xl tracking-widest">ARTEFACTA</span>
+                        </div>
+
+                        <h2 class="font-serif text-4xl md:text-5xl mb-8">Costruiamo insieme
+                            <br>nuove
+                            visioni.
+                        </h2>
+                        <p class="text-brand-gray text-lg mb-10 max-w-md">
+                            Siamo pronti ad ascoltare la tua sfida. Contattaci per scoprire come
+                            l'arte
+                            e la scienza
+                            comportamentale possono trasformare la tua realtà.
+                        </p>
+
+                        <div class="space-y-6">
+                            <a href="mailto:info@artefactastudio.com"
+                                class="flex items-center text-xl hover:text-brand-purple transition-colors group">
+                                <svg class="w-6 h-6 mr-4 text-brand-purple group-hover:scale-110 transition-transform"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                                    </path>
+                                </svg>
+                                info@artefactastudio.com
+                            </a>
+                            <a href="tel:+390212345678"
+                                class="flex items-center text-xl hover:text-brand-purple transition-colors group">
+                                <svg class="w-6 h-6 mr-4 text-brand-purple group-hover:scale-110 transition-transform"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z">
+                                    </path>
+                                </svg>
+                                +39 02 1234 5678
+                            </a>
+                            <div class="flex items-center space-x-6 pt-4">
+                                <a href="#" class="text-brand-gray hover:text-white transition-colors">
+                                    <span class="sr-only">LinkedIn</span>
+                                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                        <path
+                                            d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                                    </svg>
+                                </a>
+                                <a href="#" class="text-brand-gray hover:text-white transition-colors">
+                                    <span class="sr-only">Instagram</span>
+                                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                        <path
+                                            d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Newsletter Form -->
+                    <div class="bg-brand-white/5 p-8 rounded-2xl border border-brand-white/10 reveal delay-100">
+                        <h3 class="text-2xl font-serif mb-6">Resta Ispirato</h3>
+                        <p class="text-brand-gray mb-6">
+                            Ricevi approfondimenti su arte, psicologia e innovazione. Niente
+                            spam, solo
+                            contenuto di
+                            valore.
+                        </p>
+                        <form class="space-y-4">
+                            <div>
+                                <label for="email" class="sr-only">Email</label>
+                                <input type="email" id="email" placeholder="La tua email"
+                                    class="w-full px-4 py-3 bg-brand-black border border-brand-white/20 rounded-lg focus:outline-none focus:border-brand-purple text-white placeholder-brand-gray/50 transition-colors">
+                            </div>
+                            <button type="submit"
+                                class="w-full py-3 bg-brand-purple text-white font-semibold rounded-lg hover:bg-brand-purpleDark transition-colors duration-300 shadow-lg hover:shadow-brand-purple/30">
+                                Iscriviti alla Newsletter
+                            </button>
+                        </form>
+                        <p class="text-xs text-brand-gray/50 mt-4 text-center">
+                            Iscrivendoti accetti la nostra <a href="#" class="underline hover:text-white">Privacy
+                                Policy</a>.
+                        </p>
+                    </div>
+                </div>
+
+                <div
+                    class="border-t border-brand-white/10 mt-20 pt-8 flex flex-col md:flex-row justify-between items-center text-brand-gray/60 text-sm">
+                    <p>&copy; 2023 Artefacta Studio. Tutti i diritti riservati.</p>
+                    <div class="flex space-x-6 mt-4 md:mt-0">
+                        <a href="#" class="hover:text-white transition-colors">Privacy
+                            Policy</a>
+                        <a href="#" class="hover:text-white transition-colors">Cookie Policy</a>
+                        <a href="#" class="hover:text-white transition-colors">Termini di
+                            Servizio</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
 
     </main>
 
-    <!-- ==== FOOTER ==== -->
-    <footer id="contatti" class="bg-brand-gray-dark text-brand-gray-light pt-20 pb-12">
-        <div class="container mx-auto max-w-7xl px-6">
-            <div class="grid md:grid-cols-3 gap-12">
-                <!-- Colonna 1: Logo e Info -->
-                <div class="md:col-span-1">
-                    <!-- Logo (Bianco su Nero) -->
-                    <img src="completo bianco nero.jpg" 
-                         alt="Logo Artefacta Studio" 
-                         class="h-12 w-auto"
-                         onerror="this.onerror=null;this.src='https://placehold.co/200x50/2F3237/FCFCFD?text=Artefacta+Studio';">
-                    <p class="mt-4 text-brand-gray-light/80">
-                        L’opera d’arte non è l’oggetto, ma ciò che l’oggetto fa al mondo.
-                    </p>
-                </div>
-                
-                <!-- Colonna 2: Contatti -->
-                <div>
-                    <h3 class="text-lg font-semibold text-brand-light">Contatti</h3>
-                    <ul class="mt-4 space-y-3">
-                        <li>
-                            <a href="mailto:info@artefactastudio.it" class="hover:text-brand-purple transition-colors">info@artefactastudio.it</a>
-                        </li>
-                        <li>
-                            <p>P.IVA: 1234567890 (segnaposto)</p>
-                        </li>
-                    </ul>
-                </div>
-                
-                <!-- Colonna 3: Social e Newsletter -->
-                <div>
-                    <h3 class="text-lg font-semibold text-brand-light">Seguici</h3>
-                    <div class="flex space-x-4 mt-4">
-                        <a href="#" aria-label="LinkedIn" class="text-brand-gray-light hover:text-brand-purple transition-colors">
-                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" clip-rule="evenodd"/></svg>
-                        </a>
-                        <a href="#" aria-label="Instagram" class="text-brand-gray-light hover:text-brand-purple transition-colors">
-                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.148 3.225-1.664 4.771-4.919 4.919-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.646-.07-4.85s.012-3.584.07-4.85c.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.646-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.059 1.689.073 4.948.073s3.667-.014 4.947-.072c4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.947s-.014-3.667-.072-4.947c-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.689-.073-4.947-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-                        </a>
-                    </div>
-                    <!-- Newsletter (Futuro) -->
-                    <h3 class="text-lg font-semibold text-brand-light mt-8">Newsletter (in futuro)</h3>
-                    <form class="mt-4 flex">
-                        <input type="email" placeholder="La tua email" class="flex-1 px-4 py-2 rounded-l-md text-brand-dark focus:outline-none" disabled>
-                        <button type="submit" class="bg-brand-purple text-white px-5 py-2 rounded-r-md font-semibold hover:bg-opacity-90 transition-all" disabled>Iscriviti</button>
-                    </form>
-                </div>
-            </div>
-            
-            <!-- Copyright -->
-            <div class="mt-12 border-t border-brand-gray-light/30 pt-8 text-center text-brand-gray-light/60">
-                <p>&copy; 2025 Artefacta Studio. Tutti i diritti riservati.</p>
-            </div>
-        </div>
-    </footer>
-
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const menuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-            
-            // Toggle menu mobile
-            menuButton.addEventListener('click', function() {
-                mobileMenu.classList.toggle('hidden');
-            });
-
-            // Chiudi menu mobile quando si clicca un link
-            const mobileLinks = document.querySelectorAll('.nav-link-mobile');
-            mobileLinks.forEach(link => {
-                link.addEventListener('click', () => {
-                    mobileMenu.classList.add('hidden');
-                });
-            });
-
-            // Gestione scroll-spy per link attivi
-            const sections = document.querySelectorAll('section[id]');
-            const navLinks = document.querySelectorAll('.nav-link');
-
-            function onScroll() {
-                let currentSection = '';
-
-                sections.forEach(section => {
-                    const sectionTop = section.offsetTop;
-                    const sectionHeight = section.clientHeight;
-                    // Attiva la sezione quando la sua cima è a meno di 150px dal top della viewport
-                    if (pageYOffset >= (sectionTop - 150)) {
-                        currentSection = section.getAttribute('id');
-                    }
-                });
-
-                // Gestione speciale per la sezione contatti nel footer
-                const footer = document.getElementById('contatti');
-                if ((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight - 50) {
-                     currentSection = 'contatti';
-                }
-
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href') === `#${currentSection}`) {
-                        link.classList.add('active');
-                    }
-                });
-            }
-
-            window.addEventListener('scroll', onScroll);
-            onScroll(); // Esegui al caricamento
-        });
-    </script>
-
+    <!-- Main Script -->
+    <script src="js/main.js"></script>
 </body>
+
 </html>
