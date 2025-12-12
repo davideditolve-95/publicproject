@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VitalCore | NeuroSync Technology</title>
+    <title>VitalCore | Performance Nutraceutics</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -34,9 +34,9 @@
         .input-dark { background: #1e293b; border: 1px solid #334155; color: white; }
         .input-dark:focus { border-color: #38bdf8; outline: none; }
 
-        /* Scrollbar hide for carousel */
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        /* Progress Bar Styles */
+        .progress-bg { background: rgba(255, 255, 255, 0.1); border-radius: 99px; height: 8px; overflow: hidden; }
+        .progress-fill { height: 100%; border-radius: 99px; transition: width 1s ease-in-out; }
     </style>
 </head>
 <body class="antialiased overflow-x-hidden flex flex-col min-h-screen">
@@ -68,8 +68,8 @@
                     <option value="es">🇪🇸 ES</option>
                 </select>
 
-                <button onclick="openCheckout()" class="bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-400 hover:to-indigo-500 text-white px-4 py-1.5 lg:px-5 lg:py-2 rounded-full text-xs lg:text-sm font-bold shadow-lg shadow-sky-500/20 transition transform hover:scale-105 flex items-center gap-2 pulse-border">
-                    <i class="fas fa-shopping-bag"></i> <span data-i18n="btn_buy">Pre-Order</span>
+                <button onclick="openCheckout('VitalCore Box', 49.90)" class="bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-400 hover:to-indigo-500 text-white px-4 py-1.5 lg:px-5 lg:py-2 rounded-full text-xs lg:text-sm font-bold shadow-lg shadow-sky-500/20 transition transform hover:scale-105 flex items-center gap-2 pulse-border">
+                    <i class="fas fa-box"></i> <span data-i18n="btn_buy">Buy Bundle</span>
                 </button>
             </div>
         </div>
@@ -83,178 +83,108 @@
             <div class="absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-indigo-600/10 rounded-full blur-[120px]"></div>
         </div>
 
-        <!-- === PAGE 1: HOME (SALES WINDOW) === -->
+        <!-- === PAGE 1: HOME (STOREFRONT) === -->
         <section id="home" class="page-section active fade-in">
             <!-- TIMER & BANNER -->
             <div class="max-w-7xl mx-auto px-6 mt-4">
-                <div class="bg-slate-900/80 border border-sky-900 rounded-xl p-4 flex flex-col md:flex-row justify-between items-center gap-4 shadow-lg shadow-sky-900/20">
-                    <div class="flex items-center gap-3 text-sky-400">
-                        <i class="fas fa-clock text-xl animate-pulse"></i>
-                        <span class="font-bold uppercase tracking-wider text-sm" data-i18n="timer_label">Pre-Order Ends In:</span>
-                    </div>
-                    <div class="flex gap-4 font-mono text-2xl font-bold text-white" id="countdown-timer">
-                        <div>04<span class="text-xs text-slate-500 block">HRS</span></div>:
-                        <div>42<span class="text-xs text-slate-500 block">MIN</span></div>:
-                        <div>18<span class="text-xs text-slate-500 block">SEC</span></div>
-                    </div>
-                    <div class="text-xs text-slate-400 bg-slate-800 px-3 py-1 rounded-full">
-                        <i class="fas fa-box-open mr-1"></i> 482/500 Sold
-                    </div>
+                <div class="bg-red-500/10 border border-red-500/40 rounded-xl p-4 flex justify-center items-center gap-4 shadow-lg text-center animate-pulse">
+                    <span class="text-red-300 font-bold uppercase tracking-wider text-sm">
+                        <i class="fas fa-exclamation-triangle"></i> Promo Launch: €49.90 Valid Only Until Stock Lasts (Then €79.99)
+                    </span>
                 </div>
             </div>
 
-            <div class="max-w-7xl mx-auto px-6 pt-10 lg:pt-16">
-                <!-- HERO SPLIT -->
-                <div class="grid lg:grid-cols-2 gap-16 items-center mb-20">
+            <div class="max-w-7xl mx-auto px-6 pt-10">
+                <!-- HERO PRODUCT: NEUROSYNC -->
+                <div class="grid lg:grid-cols-2 gap-16 items-center mb-10">
                     <div>
                         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-950/50 border border-sky-800 text-xs text-sky-400 font-semibold mb-6 uppercase tracking-wide">
                             <span class="w-2 h-2 rounded-full bg-sky-400 animate-pulse"></span>
-                            <span data-i18n="hero_badge">Biphasic Release Tech</span>
+                            The Full Protocol
                         </div>
                         <h1 class="text-5xl lg:text-7xl font-bold leading-tight mb-6">
-                            <span data-i18n="hero_title_1">Unlock Your</span><br>
-                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-indigo-400" data-i18n="hero_title_2">Cognitive Peak.</span>
+                            Total<br>
+                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-indigo-400">Optimization.</span>
                         </h1>
                         <p class="text-slate-400 text-lg mb-8 leading-relaxed max-w-lg" data-i18n="hero_desc">
-                            VitalCore presents NeuroSync™. The world's first biphasic nootropic. 
-                            <strong>Direct-to-consumer model</strong> ensures pharmaceutical grade quality at 50% of the market cost.
+                            We do not sell separate pills. We sell a protocol. 
+                            The <strong>VitalCore Box</strong> combines NeuroSync, Vit-D, and Ashwagandha for a synergistic effect.
                         </p>
                         
+                        <!-- PRICING BOX -->
+                        <div class="bg-slate-900/80 p-6 rounded-2xl border border-sky-500/30 mb-8 inline-block">
+                            <div class="text-xs text-slate-500 uppercase mb-1">Launch Bundle Price</div>
+                            <div class="flex items-end gap-3">
+                                <span class="text-4xl font-bold text-white">€49.90</span>
+                                <span class="text-lg text-slate-500 line-through mb-1">€79.99</span>
+                            </div>
+                            <div class="text-xs text-green-400 mt-2"><i class="fas fa-check"></i> Free Shipping included</div>
+                        </div>
+
                         <div class="flex flex-col sm:flex-row gap-4 mb-12">
-                            <button onclick="openCheckout()" class="bg-white text-slate-900 px-8 py-4 rounded-xl font-bold text-lg hover:bg-sky-50 transition shadow-xl shadow-white/5 flex items-center justify-center gap-2">
-                                <span data-i18n="btn_buy_hero">Buy Now - €49.90</span> <i class="fas fa-arrow-right"></i>
-                            </button>
-                            <button onclick="switchPage('patent')" class="glass text-white px-8 py-4 rounded-xl font-medium border border-slate-700 hover:bg-slate-800 transition" data-i18n="btn_tech">
-                                Discover Science
+                            <button onclick="openCheckout('VitalCore Protocol Box', 49.90)" class="w-full sm:w-auto bg-sky-500 hover:bg-sky-600 text-white px-8 py-4 rounded-xl font-bold text-lg transition shadow-xl shadow-sky-500/20 flex items-center justify-center gap-2">
+                                <i class="fas fa-box-open"></i> Buy The Box
                             </button>
                         </div>
                     </div>
 
-                    <!-- Visual -->
+                    <!-- Visual Box Representation -->
                     <div class="relative flex justify-center h-[500px] items-center">
                         <div class="absolute inset-0 bg-gradient-to-tr from-sky-500/20 to-purple-500/20 rounded-full blur-3xl"></div>
-                        <img src="https://cdn-icons-png.flaticon.com/512/883/883356.png" alt="NeuroSync Bottle" class="w-72 relative z-10 drop-shadow-2xl pill-float filter brightness-110">
+                        <!-- Stacking the products visually -->
+                        <div class="relative z-10 flex items-end -space-x-12">
+                            <img src="https://cdn-icons-png.flaticon.com/512/3076/3076949.png" class="w-40 filter brightness-75 transform -rotate-12 translate-y-4">
+                            <img src="https://cdn-icons-png.flaticon.com/512/883/883356.png" class="w-56 z-20 drop-shadow-2xl pill-float">
+                            <img src="https://cdn-icons-png.flaticon.com/512/3209/3209955.png" class="w-40 filter brightness-75 transform rotate-12 translate-y-4">
+                        </div>
                     </div>
                 </div>
 
-                <!-- WHY BUY / RESULTS -->
+                <!-- PRODUCT LINEUP (READ ONLY) -->
                 <div class="mb-20">
-                    <div class="text-center mb-12">
-                        <h2 class="text-3xl font-bold text-white mb-2" data-i18n="why_title">Why NeuroSync?</h2>
-                        <p class="text-slate-400" data-i18n="why_subtitle">Clinically designed for High Performers</p>
-                    </div>
-                    <div class="grid md:grid-cols-3 gap-8">
-                        <div class="glass p-6 rounded-2xl text-center border-t-4 border-sky-500 hover:-translate-y-2 transition duration-300">
-                            <div class="w-16 h-16 bg-sky-900/30 rounded-full flex items-center justify-center mx-auto mb-4 text-sky-400 text-2xl"><i class="fas fa-bolt"></i></div>
-                            <h3 class="text-xl font-bold text-white mb-2" data-i18n="res_1_title">Instant Focus</h3>
-                            <p class="text-sm text-slate-400" data-i18n="res_1_desc">Matrix A dissolves in 15 mins. No lag, just pure cognitive clarity when you need it.</p>
+                    <h2 class="text-3xl font-bold text-white mb-2 text-center">What's in the Box</h2>
+                    <p class="text-slate-400 text-center mb-8">Three pillars of performance. One fixed price.</p>
+                    
+                    <div class="grid md:grid-cols-3 gap-8 opacity-90">
+                        <!-- NeuroSync -->
+                        <div class="glass p-6 rounded-2xl border border-sky-500/50 relative overflow-hidden">
+                            <div class="absolute top-3 right-3 bg-slate-700 text-slate-300 text-[10px] font-bold px-2 py-1 rounded uppercase">Included</div>
+                            <img src="https://cdn-icons-png.flaticon.com/512/883/883356.png" class="w-24 h-24 mx-auto mb-4 object-contain">
+                            <h3 class="text-lg font-bold text-white mb-1">NeuroSync™</h3>
+                            <p class="text-xs text-sky-400 mb-2 font-mono">Cognitive Driver</p>
+                            <p class="text-xs text-slate-400">Patented biphasic release for focus.</p>
                         </div>
-                        <div class="glass p-6 rounded-2xl text-center border-t-4 border-indigo-500 hover:-translate-y-2 transition duration-300">
-                            <div class="w-16 h-16 bg-indigo-900/30 rounded-full flex items-center justify-center mx-auto mb-4 text-indigo-400 text-2xl"><i class="fas fa-brain"></i></div>
-                            <h3 class="text-xl font-bold text-white mb-2" data-i18n="res_2_title">Memory Retention</h3>
-                            <p class="text-sm text-slate-400" data-i18n="res_2_desc">Liposomal Omega-3s support long-term neural health and information recall.</p>
+
+                        <!-- Vitamin D -->
+                        <div class="glass p-6 rounded-2xl border border-slate-700 relative overflow-hidden">
+                            <div class="absolute top-3 right-3 bg-slate-700 text-slate-300 text-[10px] font-bold px-2 py-1 rounded uppercase">Included</div>
+                            <img src="https://cdn-icons-png.flaticon.com/512/3076/3076949.png" class="w-24 h-24 mx-auto mb-4 object-contain">
+                            <h3 class="text-lg font-bold text-white mb-1">Vitamin D</h3>
+                            <p class="text-xs text-yellow-400 mb-2 font-mono">Structural Foundation</p>
+                            <p class="text-xs text-slate-400">Bone health and immune support.</p>
                         </div>
-                        <div class="glass p-6 rounded-2xl text-center border-t-4 border-green-500 hover:-translate-y-2 transition duration-300">
-                            <div class="w-16 h-16 bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-4 text-green-400 text-2xl"><i class="fas fa-chart-line"></i></div>
-                            <h3 class="text-xl font-bold text-white mb-2" data-i18n="res_3_title">No Crash Energy</h3>
-                            <p class="text-sm text-slate-400" data-i18n="res_3_desc">Sustained release prevents the dreaded afternoon slump. Consistent output for 6+ hours.</p>
+
+                        <!-- Ashwagandha -->
+                        <div class="glass p-6 rounded-2xl border border-slate-700 relative overflow-hidden">
+                            <div class="absolute top-3 right-3 bg-slate-700 text-slate-300 text-[10px] font-bold px-2 py-1 rounded uppercase">Included</div>
+                            <img src="https://cdn-icons-png.flaticon.com/512/3209/3209955.png" class="w-24 h-24 mx-auto mb-4 object-contain">
+                            <h3 class="text-lg font-bold text-white mb-1">Ashwagandha</h3>
+                            <p class="text-xs text-green-400 mb-2 font-mono">Stress Regulator</p>
+                            <p class="text-xs text-slate-400">Cortisol management and recovery.</p>
                         </div>
                     </div>
                 </div>
-
-                <!-- COMPARISON TABLE -->
-                <div class="mb-20 glass p-8 rounded-3xl">
-                    <h2 class="text-3xl font-bold text-white mb-8 text-center" data-i18n="comp_title">The Biphasic Advantage</h2>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left border-collapse">
-                            <thead>
-                                <tr class="border-b border-slate-700 text-slate-400 text-sm uppercase">
-                                    <th class="py-4 px-4">Feature</th>
-                                    <th class="py-4 px-4 text-sky-400 font-bold text-lg">NeuroSync™</th>
-                                    <th class="py-4 px-4 text-slate-500">Standard Pills</th>
-                                </tr>
-                            </thead>
-                            <tbody class="text-slate-300">
-                                <tr class="border-b border-slate-800 hover:bg-slate-800/30">
-                                    <td class="py-4 px-4 font-bold" data-i18n="comp_row1">Release Mechanism</td>
-                                    <td class="py-4 px-4 text-sky-300"><i class="fas fa-check-circle mr-2"></i> Dual-Phase (Patented)</td>
-                                    <td class="py-4 px-4 text-slate-500">Single Phase</td>
-                                </tr>
-                                <tr class="border-b border-slate-800 hover:bg-slate-800/30">
-                                    <td class="py-4 px-4 font-bold" data-i18n="comp_row2">Bioavailability</td>
-                                    <td class="py-4 px-4 text-sky-300"><i class="fas fa-check-circle mr-2"></i> High (Liposomal Protection)</td>
-                                    <td class="py-4 px-4 text-slate-500">Low (Acid degradation)</td>
-                                </tr>
-                                <tr class="border-b border-slate-800 hover:bg-slate-800/30">
-                                    <td class="py-4 px-4 font-bold" data-i18n="comp_row3">Duration</td>
-                                    <td class="py-4 px-4 text-sky-300"><i class="fas fa-check-circle mr-2"></i> 6-8 Hours</td>
-                                    <td class="py-4 px-4 text-slate-500">1-2 Hours</td>
-                                </tr>
-                                <tr>
-                                    <td class="py-4 px-4 font-bold" data-i18n="comp_row4">Price (Direct-to-Consumer)</td>
-                                    <td class="py-4 px-4 text-sky-300"><i class="fas fa-check-circle mr-2"></i> €49.90 (No middleman)</td>
-                                    <td class="py-4 px-4 text-slate-500">€80.00+ (Retail markup)</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- REVIEWS CAROUSEL -->
-                <div class="mb-20">
-                    <h2 class="text-3xl font-bold text-white mb-8 text-center" data-i18n="reviews_title">What Users Say</h2>
-                    <div class="flex gap-6 overflow-x-auto pb-8 no-scrollbar snap-x">
-                        <!-- Review 1 -->
-                        <div class="min-w-[300px] md:min-w-[400px] glass p-6 rounded-2xl snap-center border border-slate-700">
-                            <div class="flex text-yellow-400 text-sm mb-4"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                            <p class="text-slate-300 italic mb-4">"I need to study for 10 hours straight. NeuroSync is the only thing that keeps me locked in without the jittery feeling of coffee."</p>
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 bg-purple-500 rounded-full flex items-center justify-center font-bold">SJ</div>
-                                <div>
-                                    <div class="text-white font-bold">Sarah Jenkins</div>
-                                    <div class="text-xs text-slate-500">Medical Student</div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Review 2 -->
-                        <div class="min-w-[300px] md:min-w-[400px] glass p-6 rounded-2xl snap-center border border-slate-700">
-                            <div class="flex text-yellow-400 text-sm mb-4"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                            <p class="text-slate-300 italic mb-4">"The biphasic release is real. I feel the kick in 15 mins, but the focus lasts until the market closes. Game changer."</p>
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center font-bold">MT</div>
-                                <div>
-                                    <div class="text-white font-bold">Mark Thompson</div>
-                                    <div class="text-xs text-slate-500">Day Trader</div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Review 3 -->
-                        <div class="min-w-[300px] md:min-w-[400px] glass p-6 rounded-2xl snap-center border border-slate-700">
-                            <div class="flex text-yellow-400 text-sm mb-4"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div>
-                            <p class="text-slate-300 italic mb-4">"As a doctor, I'm skeptical of supplements. But the liposomal delivery mechanism here is scientifically sound. It works."</p>
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center font-bold">AM</div>
-                                <div>
-                                    <div class="text-white font-bold">Dr. A. Miller</div>
-                                    <div class="text-xs text-slate-500">Neurosurgeon</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
         </section>
 
         <!-- === PAGE 2: PATENT === -->
         <section id="patent" class="page-section fade-in">
-            <!-- (Contenuto Invariato - Ottimizzato per Esame) -->
             <div class="max-w-4xl mx-auto px-6 py-10">
                 <div class="mb-12 border-b border-slate-800 pb-8">
                     <h2 class="text-4xl font-bold mb-4 text-white"><span data-i18n="tech_title">The Core Innovation</span></h2>
-                    <p class="text-lg text-slate-300 leading-relaxed" data-i18n="tech_intro">
-                        Standard supplements suffer from low bioavailability. Incompatible ingredients degrade in the stomach acid before absorption. 
-                        <strong>VitalCore solves this with Industrial Invention #IT-2025.</strong>
+                    <p class="text-lg text-slate-300 leading-relaxed">
+                        VitalCore solves the bioavailability problem with <strong>Industrial Invention #IT-2025</strong>. 
+                        A valuation of <strong>€40,000</strong> has been assigned to this IP asset.
                     </p>
                 </div>
 
@@ -262,54 +192,24 @@
                     <!-- Problem -->
                     <div class="bg-red-900/10 p-6 rounded-2xl border border-red-900/30">
                         <h3 class="text-red-400 font-bold mb-2 flex items-center gap-2"><i class="fas fa-times-circle"></i> The Problem</h3>
-                        <p class="text-sm text-slate-400" data-i18n="tech_prob">
-                            Traditional pills release everything at once. Acid-sensitive compounds like Omega-3 are destroyed by gastric pH (pH 1.5-3.5), reducing efficacy by up to 60%.
+                        <p class="text-sm text-slate-400">
+                            Traditional pills release everything at once. Acid-sensitive compounds like Omega-3 are destroyed by gastric pH.
                         </p>
                     </div>
                     <!-- Solution -->
                     <div class="bg-green-900/10 p-6 rounded-2xl border border-green-900/30">
                         <h3 class="text-green-400 font-bold mb-2 flex items-center gap-2"><i class="fas fa-check-circle"></i> Our Solution</h3>
-                        <p class="text-sm text-slate-400" data-i18n="tech_sol">
-                            A <strong>Bi-Cameral Delivery System</strong>. We physically separate the ingredients into two distinct matrices with programmed release timings.
+                        <p class="text-sm text-slate-400">
+                            A <strong>Bi-Cameral Delivery System</strong>. We physically separate ingredients into two matrices.
                         </p>
                     </div>
                 </div>
 
-                <div class="space-y-4">
-                    <div class="glass p-6 rounded-xl border-l-4 border-sky-500">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <h4 class="text-xl font-bold text-sky-400" data-i18n="matrix_a_title">Matrix A: Immediate Release</h4>
-                                <p class="text-slate-300 mt-2 text-sm" data-i18n="matrix_a_desc">
-                                    <strong>Composition:</strong> Tyrosine, Ginseng, Methylated B-Vitamins.<br>
-                                    <strong>Mechanism:</strong> Rapid dissolution in the stomach for immediate cognitive uptake.<br>
-                                    <strong>Benefit:</strong> Instant focus within 15 minutes.
-                                </p>
-                            </div>
-                            <i class="fas fa-bolt text-sky-500/20 text-4xl"></i>
-                        </div>
-                    </div>
-
-                    <div class="glass p-6 rounded-xl border-l-4 border-indigo-500">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <h4 class="text-xl font-bold text-indigo-400" data-i18n="matrix_b_title">Matrix B: Protected Release</h4>
-                                <p class="text-slate-300 mt-2 text-sm" data-i18n="matrix_b_desc">
-                                    <strong>Composition:</strong> Omega-3s, Phosphatidylserine, Curcumin.<br>
-                                    <strong>Mechanism:</strong> Liposomal Encapsulation. Lipid spheres protect the payload from acid, releasing only in the intestine.<br>
-                                    <strong>Benefit:</strong> Long-term neuroprotection and high absorption.
-                                </p>
-                            </div>
-                            <i class="fas fa-shield-alt text-indigo-500/20 text-4xl"></i>
-                        </div>
-                    </div>
-                </div>
-
                 <div class="mt-12 p-6 bg-slate-900 rounded-xl border border-slate-700 text-center">
-                    <h5 class="text-slate-400 uppercase text-xs font-bold tracking-widest mb-2">Strategic Asset</h5>
-                    <div class="text-2xl font-bold text-white mb-2" data-i18n="tech_asset_val">Patent Value: €30,000</div>
-                    <p class="text-xs text-slate-500" data-i18n="tech_asset_desc">
-                        This IP justifies the non-proportional equity split. Patrick (Founder) contributes this asset, not cash.
+                    <h5 class="text-slate-400 uppercase text-xs font-bold tracking-widest mb-2">Strategic Asset Valuation</h5>
+                    <div class="text-4xl font-bold text-white mb-2">€40,000</div>
+                    <p class="text-xs text-slate-500">
+                        This IP justifies the 51% equity allocation to Patrick.
                     </p>
                 </div>
             </div>
@@ -321,7 +221,7 @@
                 <div class="text-center mb-12">
                     <h2 class="text-4xl font-bold mb-4" data-i18n="team_title">Operational Team</h2>
                     <p class="text-slate-400 max-w-2xl mx-auto" data-i18n="team_subtitle">
-                        VitalCore operates with <strong>Zero Employees</strong>. All 4 shareholders are active "Working Partners" registered with INPS Traders Management.
+                        VitalCore operates with <strong>Zero Employees</strong>. All 4 shareholders are active "Working Partners".
                     </p>
                 </div>
 
@@ -333,9 +233,9 @@
                         <h3 class="text-lg font-bold text-white">Patrick</h3>
                         <div class="text-sky-400 text-xs font-bold uppercase mb-4">Sole Director (51%)</div>
                         <ul class="text-left text-xs text-slate-400 space-y-2">
-                            <li><i class="fas fa-check text-sky-500 mr-1"></i> Provides Patent (€30k)</li>
-                            <li><i class="fas fa-check text-sky-500 mr-1"></i> Provides Network</li>
-                            <li><i class="fas fa-check text-sky-500 mr-1"></i> Management Powers</li>
+                            <li><i class="fas fa-check text-sky-500 mr-1"></i> <strong>IP Asset (€40k)</strong></li>
+                            <li><i class="fas fa-check text-sky-500 mr-1"></i> Commercial Network</li>
+                            <li><i class="fas fa-check text-sky-500 mr-1"></i> Rapid Decisions</li>
                         </ul>
                     </div>
                     <!-- Davide -->
@@ -343,11 +243,11 @@
                         <div class="absolute top-0 left-0 w-full h-1 bg-indigo-500"></div>
                         <img src="https://cdn-icons-png.flaticon.com/512/4140/4140047.png" class="w-20 h-20 mx-auto mb-4 rounded-full bg-indigo-900/20 p-2">
                         <h3 class="text-lg font-bold text-white">Davide</h3>
-                        <div class="text-indigo-400 text-xs font-bold uppercase mb-4">Operations (16.3%)</div>
+                        <div class="text-indigo-400 text-xs font-bold uppercase mb-4">Finance & Operations</div>
                         <ul class="text-left text-xs text-slate-400 space-y-2">
-                            <li><i class="fas fa-check text-indigo-500 mr-1"></i> Risk Capital (€3.3k)</li>
-                            <li><i class="fas fa-check text-indigo-500 mr-1"></i> E-commerce Mgr</li>
-                            <li><i class="fas fa-check text-indigo-500 mr-1"></i> INPS Registered</li>
+                            <li><i class="fas fa-check text-indigo-500 mr-1"></i> Cash Capital (~€6.6k)</li>
+                            <li><i class="fas fa-check text-indigo-500 mr-1"></i> Financial Planning</li>
+                            <li><i class="fas fa-check text-indigo-500 mr-1"></i> Ops Manager</li>
                         </ul>
                     </div>
                     <!-- Gabriele -->
@@ -355,11 +255,11 @@
                         <div class="absolute top-0 left-0 w-full h-1 bg-indigo-500"></div>
                         <img src="https://cdn-icons-png.flaticon.com/512/4140/4140037.png" class="w-20 h-20 mx-auto mb-4 rounded-full bg-indigo-900/20 p-2">
                         <h3 class="text-lg font-bold text-white">Gabriele</h3>
-                        <div class="text-indigo-400 text-xs font-bold uppercase mb-4">Logistics (16.3%)</div>
+                        <div class="text-indigo-400 text-xs font-bold uppercase mb-4">Logistics & Inventory</div>
                         <ul class="text-left text-xs text-slate-400 space-y-2">
-                            <li><i class="fas fa-check text-indigo-500 mr-1"></i> Risk Capital (€3.3k)</li>
-                            <li><i class="fas fa-check text-indigo-500 mr-1"></i> Warehouse Mgr</li>
-                            <li><i class="fas fa-check text-indigo-500 mr-1"></i> INAIL Insured</li>
+                            <li><i class="fas fa-check text-indigo-500 mr-1"></i> Cash Capital (~€6.6k)</li>
+                            <li><i class="fas fa-check text-indigo-500 mr-1"></i> Shipping Mgr</li>
+                            <li><i class="fas fa-check text-indigo-500 mr-1"></i> Inventory Control</li>
                         </ul>
                     </div>
                     <!-- Ghita -->
@@ -367,95 +267,107 @@
                         <div class="absolute top-0 left-0 w-full h-1 bg-indigo-500"></div>
                         <img src="https://cdn-icons-png.flaticon.com/512/4140/4140051.png" class="w-20 h-20 mx-auto mb-4 rounded-full bg-indigo-900/20 p-2">
                         <h3 class="text-lg font-bold text-white">Ghita</h3>
-                        <div class="text-indigo-400 text-xs font-bold uppercase mb-4">Compliance (16.3%)</div>
+                        <div class="text-indigo-400 text-xs font-bold uppercase mb-4">Marketing & Ads</div>
                         <ul class="text-left text-xs text-slate-400 space-y-2">
-                            <li><i class="fas fa-check text-indigo-500 mr-1"></i> Risk Capital (€3.3k)</li>
-                            <li><i class="fas fa-check text-indigo-500 mr-1"></i> Legal & Admin</li>
-                            <li><i class="fas fa-check text-indigo-500 mr-1"></i> INPS Registered</li>
+                            <li><i class="fas fa-check text-indigo-500 mr-1"></i> Cash Capital (~€6.6k)</li>
+                            <li><i class="fas fa-check text-indigo-500 mr-1"></i> UX / E-commerce</li>
+                            <li><i class="fas fa-check text-indigo-500 mr-1"></i> Ad Campaigns</li>
                         </ul>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- === PAGE 4: GOVERNANCE === -->
+        <!-- === PAGE 4: GOVERNANCE (WITH CHARTS) === -->
         <section id="governance" class="page-section fade-in">
              <div class="max-w-7xl mx-auto px-6 py-10">
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    
                     <!-- Box 1: Legal Form -->
                     <div class="glass p-8 rounded-2xl border-t-4 border-red-500">
-                        <h3 class="text-2xl font-bold mb-4 text-white" data-i18n="gov_box1_title">Ordinary S.r.l.</h3>
-                        <div class="text-xs text-red-300 bg-red-900/20 p-2 rounded mb-4 border border-red-900/50">
-                            <i class="fas fa-ban"></i> Rejected: Simplified S.r.l. (S.r.l.s.)
-                        </div>
-                        <p class="text-sm text-slate-300 mb-4 leading-relaxed" data-i18n="gov_box1_text">
-                            We chose the Ordinary form to avoid the rigid Ministerial Statute of the S.r.l.s. We needed a <strong>"Tailor-made" Statute</strong> to handle:
+                        <h3 class="text-xl font-bold mb-4 text-white">Ordinary S.r.l.</h3>
+                        <p class="text-sm text-slate-300 mb-4 leading-relaxed">
+                            Selected for "Tailor-made" Statute to handle complex contributions (Asset vs Cash) and reserved matters.
                         </p>
-                        <ul class="text-sm space-y-2 text-slate-400">
-                            <li>• Complex Contributions (Patent vs Cash)</li>
-                            <li>• Non-proportional Voting Rights</li>
-                            <li>• Specific "Reserved Matters" clauses</li>
-                        </ul>
                     </div>
-                    <!-- Box 2: Capital & Shares -->
+
+                    <!-- Box 2: Capital Structure -->
                     <div class="glass p-8 rounded-2xl border-t-4 border-blue-500">
-                        <h3 class="text-2xl font-bold mb-4 text-white" data-i18n="gov_box2_title">Capital Structure</h3>
-                        <p class="text-sm text-slate-300 mb-4" data-i18n="gov_box2_text">
-                            <strong>Derogation Art. 2468 Civil Code:</strong> Shareholders' rights are NOT proportional to contributions.
-                        </p>
+                        <h3 class="text-xl font-bold mb-4 text-white">Capital Structure</h3>
                         <div class="space-y-4">
                             <div class="p-3 bg-slate-800 rounded border-l-2 border-sky-500">
-                                <div class="text-xs font-bold text-white uppercase">Patrick (51%)</div>
-                                <div class="text-xs text-slate-400">Contributes IP (€30k) + Network.<br><em>Condicio sine qua non</em> for the startup.</div>
+                                <div class="flex justify-between items-center mb-1">
+                                    <span class="text-xs font-bold text-white uppercase">Patrick (51%)</span>
+                                    <span class="text-sky-400 font-bold text-xs">€40k Asset</span>
+                                </div>
+                                <div class="text-xs text-slate-400">IP Contribution (Patent)</div>
                             </div>
                             <div class="p-3 bg-slate-800 rounded border-l-2 border-indigo-500">
-                                <div class="text-xs font-bold text-white uppercase">Others (49%)</div>
-                                <div class="text-xs text-slate-400">Contribute Risk Capital (€10k).<br>Finance initial inventory.</div>
+                                <div class="flex justify-between items-center mb-1">
+                                    <span class="text-xs font-bold text-white uppercase">Minority (49%)</span>
+                                    <span class="text-indigo-400 font-bold text-xs">€20k Cash</span>
+                                </div>
+                                <div class="text-xs text-slate-400">Risk Capital (Fully Funded Launch)</div>
                             </div>
                         </div>
                     </div>
-                    <!-- Box 3: Risk & Lock-up -->
-                    <div class="glass p-8 rounded-2xl border-t-4 border-orange-500">
-                        <h3 class="text-2xl font-bold mb-4 text-white" data-i18n="gov_box4_title">Risk Management</h3>
-                        <p class="text-sm text-slate-300 mb-4" data-i18n="gov_box4_intro">
-                            The "Killer Point" is protecting the company if Patrick leaves.
-                        </p>
-                        <div class="space-y-3">
-                            <div class="flex items-center gap-3 text-sm text-slate-300">
-                                <i class="fas fa-lock text-orange-500"></i>
-                                <div>
-                                    <strong class="text-white">3-Year Lock-up</strong>
-                                    <div class="text-xs text-slate-500">Prohibition to sell shares.</div>
+
+                    <!-- Box 3: KPI DASHBOARD (NEW GRAPHICS) -->
+                    <div class="glass p-8 rounded-2xl border-t-4 border-green-500">
+                        <h3 class="text-xl font-bold mb-4 text-white">Financial KPIs</h3>
+                        
+                        <div class="space-y-6">
+                            <!-- Break-Even Chart -->
+                            <div>
+                                <div class="flex justify-between text-xs text-slate-300 mb-1">
+                                    <span>Break-Even (150 Orders)</span>
+                                    <span class="text-green-400 font-bold">120/150</span>
+                                </div>
+                                <div class="progress-bg">
+                                    <div class="progress-fill bg-gradient-to-r from-green-500 to-green-300" style="width: 80%"></div>
                                 </div>
                             </div>
-                            <div class="flex items-center gap-3 text-sm text-slate-300">
-                                <i class="fas fa-hand-paper text-orange-500"></i>
-                                <div>
-                                    <strong class="text-white">Non-Compete</strong>
-                                    <div class="text-xs text-slate-500">Extended Art. 2301 C.C. to forbid parallel e-commerce ventures.</div>
+
+                            <!-- CAC Chart -->
+                            <div>
+                                <div class="flex justify-between text-xs text-slate-300 mb-1">
+                                    <span>CAC Target (€15.00)</span>
+                                    <span class="text-sky-400 font-bold">€12.50 (Good)</span>
+                                </div>
+                                <div class="progress-bg">
+                                    <div class="progress-fill bg-gradient-to-r from-sky-500 to-sky-300" style="width: 70%"></div>
+                                </div>
+                                <div class="text-[10px] text-slate-500 mt-1">Acquisition cost is below threshold.</div>
+                            </div>
+
+                            <!-- LTV Chart -->
+                            <div>
+                                <div class="flex justify-between text-xs text-slate-300 mb-1">
+                                    <span>LTV Projected (€180)</span>
+                                    <span class="text-purple-400 font-bold">€180</span>
+                                </div>
+                                <div class="progress-bg">
+                                    <div class="progress-fill bg-gradient-to-r from-purple-500 to-purple-300" style="width: 100%"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- Box 4: Governance Model (Full Width) -->
+
+                    <!-- Box 4: Governance Model -->
                     <div class="glass p-8 rounded-2xl border-t-4 border-yellow-500 md:col-span-2 lg:col-span-3">
                         <div class="flex flex-col md:flex-row gap-8">
                             <div class="flex-1">
-                                <h3 class="text-xl font-bold mb-4 text-white" data-i18n="gov_box3_title">Administration: Sole Director</h3>
-                                <p class="text-sm text-slate-300 mb-4" data-i18n="gov_box3_text">
-                                    Patrick is the Sole Director. In Lean E-commerce, speed is critical. A Board (CdA) is too bureaucratic for real-time supply chain decisions.
+                                <h3 class="text-xl font-bold mb-4 text-white">Administration: Sole Director</h3>
+                                <p class="text-sm text-slate-300 mb-4">
+                                    Patrick is the Sole Director. In Lean E-commerce, speed is critical.
                                 </p>
                             </div>
                             <div class="flex-1 border-l border-slate-700 pl-8">
-                                <h3 class="text-xl font-bold mb-4 text-white" data-i18n="gov_box3_sub">Minority Protection (Reserved Matters)</h3>
+                                <h3 class="text-xl font-bold mb-4 text-white">Minority Protection</h3>
                                 <ul class="text-sm space-y-3 text-slate-400">
                                     <li class="flex justify-between border-b border-slate-800 pb-2">
                                         <span>Expenses > €20,000</span>
                                         <span class="text-yellow-400 font-bold">Partner Auth.</span>
-                                    </li>
-                                    <li class="flex justify-between border-b border-slate-800 pb-2">
-                                        <span>Strategic Shifts</span>
-                                        <span class="text-yellow-400 font-bold">60% Majority</span>
                                     </li>
                                     <li class="flex justify-between">
                                         <span>Sale of Brand/IP</span>
@@ -481,33 +393,13 @@
                     </div>
                     <p class="text-slate-500 max-w-sm mb-4">
                         Pioneering nutraceutics with Biphasic Release Technology.
-                        Lean operations, direct logistics, maximum efficacy.
                     </p>
                     <div class="text-slate-500 text-xs">
-                        <p><strong>Legal Seat:</strong> Via dell'Università 1, 20100 Milano (MI)</p>
                         <p><strong>P.IVA:</strong> 09876543210</p>
-                        <p><strong>Share Capital:</strong> € 10.000,00 i.v.</p>
+                        <p><strong>Share Capital:</strong> € 20.000,00 (Cash) + IP</p>
                     </div>
                 </div>
-                <div>
-                    <h4 class="font-bold text-white mb-4">Quick Links</h4>
-                    <ul class="space-y-2 text-slate-400">
-                        <li><a href="#" onclick="switchPage('home')" class="hover:text-sky-400">Store</a></li>
-                        <li><a href="#" onclick="switchPage('patent')" class="hover:text-sky-400">Technology</a></li>
-                        <li><a href="#" onclick="switchPage('governance')" class="hover:text-sky-400">Investor Relations</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="font-bold text-white mb-4">Legal</h4>
-                    <ul class="space-y-2 text-slate-400">
-                        <li><a href="#" class="hover:text-sky-400">Privacy Policy (GDPR)</a></li>
-                        <li><a href="#" class="hover:text-sky-400">Terms of Sale</a></li>
-                        <li><a href="#" class="hover:text-sky-400">Patent Info</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="border-t border-slate-800 mt-8 pt-8 text-center text-xs text-slate-600">
-                &copy; 2025 VitalCore S.r.l. - Governance & Compliance Exam Project. All rights reserved.
+                <!-- Links omitted for brevity -->
             </div>
         </div>
     </footer>
@@ -516,22 +408,20 @@
     <div id="checkout-modal" class="fixed inset-0 z-[100] hidden bg-black/90 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="bg-slate-900 w-full max-w-lg rounded-2xl border border-slate-700 shadow-2xl overflow-hidden relative flex flex-col max-h-[90vh]">
             
-            <!-- Header -->
             <div class="bg-slate-800 p-4 flex justify-between items-center border-b border-slate-700">
-                <div class="font-bold text-white"><i class="fas fa-lock text-green-500 mr-2"></i><span data-i18n="checkout_title">Secure Checkout</span></div>
+                <div class="font-bold text-white"><i class="fas fa-lock text-green-500 mr-2"></i>Secure Checkout</div>
                 <button onclick="closeCheckout()" class="text-slate-400 hover:text-white"><i class="fas fa-times"></i></button>
             </div>
 
-            <!-- Content -->
             <div class="p-6 overflow-y-auto">
-                <!-- STEP 1: SUMMARY -->
+                <!-- STEP 1 -->
                 <div id="step-1" class="wizard-step">
                     <div class="flex gap-4 mb-6 bg-slate-800/50 p-4 rounded-lg">
-                        <img src="https://cdn-icons-png.flaticon.com/512/883/883356.png" class="w-20 h-20 bg-white/5 rounded-lg p-2 object-contain">
+                        <div class="w-16 h-16 bg-white/5 rounded-lg flex items-center justify-center text-2xl">📦</div>
                         <div>
-                            <h4 class="font-bold text-white text-lg">NeuroSync™ Focus</h4>
-                            <p class="text-sm text-slate-400 mb-1" data-i18n="product_pack">1 Month Supply (60 Caps)</p>
-                            <p class="text-sky-400 font-bold text-xl">€ 49.90</p>
+                            <h4 class="font-bold text-white text-lg" id="checkout-product-name">Protocol Box</h4>
+                            <p class="text-sm text-slate-400 mb-1">Bundle Offer (3 Items)</p>
+                            <p class="text-sky-400 font-bold text-xl" id="checkout-product-price">€ 49.90</p>
                         </div>
                     </div>
                     <form class="space-y-4">
@@ -540,68 +430,34 @@
                             <input type="email" value="prof.rossi@university.edu" class="w-full input-dark rounded p-3" readonly>
                         </div>
                         <div>
-                            <label class="text-xs text-slate-500 uppercase font-bold" data-i18n="label_address">Shipping Address</label>
+                            <label class="text-xs text-slate-500 uppercase font-bold">Shipping Address</label>
                             <input type="text" value="Via dell'Università 1, Milano" class="w-full input-dark rounded p-3" readonly>
                         </div>
                     </form>
-                    <button onclick="nextStep(2)" class="w-full bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 rounded-lg mt-6 transition" data-i18n="btn_proceed_payment">
+                    <button onclick="nextStep(2)" class="w-full bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 rounded-lg mt-6 transition">
                         Proceed to Payment
                     </button>
                 </div>
 
-                <!-- STEP 2: PAYMENT (PREPOPULATED) -->
+                <!-- STEP 2, 3, 4 omitted (same as previous) but functional -->
                 <div id="step-2" class="wizard-step hidden">
-                    <h3 class="text-xl font-bold mb-4 text-white" data-i18n="payment_title">Payment Details</h3>
-                    <div class="space-y-4">
-                        <!-- PREPOPULATED FIELDS -->
-                        <div>
-                            <label class="text-xs text-slate-500 uppercase font-bold" data-i18n="label_cardholder">Cardholder Name</label>
-                            <input type="text" value="MARIO ROSSI" class="w-full input-dark rounded p-3" readonly>
-                        </div>
-                        <div>
-                            <label class="text-xs text-slate-500 uppercase font-bold" data-i18n="label_cardnumber">Card Number</label>
-                            <div class="relative">
-                                <input type="text" value="**** **** **** 4242" class="w-full input-dark rounded p-3 pl-10" readonly>
-                                <i class="fas fa-credit-card absolute left-3 top-3.5 text-slate-500"></i>
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <label class="text-xs text-slate-500 uppercase font-bold">Expiry</label>
-                                <input type="text" value="12/28" class="w-full input-dark rounded p-3" readonly>
-                            </div>
-                            <div>
-                                <label class="text-xs text-slate-500 uppercase font-bold">CVC</label>
-                                <input type="text" value="***" class="w-full input-dark rounded p-3" readonly>
-                            </div>
-                        </div>
-                        <div class="text-xs text-green-500 flex items-center gap-1">
-                            <i class="fas fa-check-circle"></i> Stored payment method retrieved
-                        </div>
-                    </div>
-                    <button onclick="nextStep(3)" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg mt-6 transition" data-i18n="btn_pay">
-                        Pay €49.90
-                    </button>
-                    <div class="text-center mt-3 text-xs text-slate-500"><i class="fas fa-lock"></i> 256-bit SSL Encrypted</div>
+                     <!-- Payment Summary -->
+                     <h3 class="text-xl font-bold mb-4 text-white">Payment</h3>
+                     <div class="bg-slate-800 p-4 rounded mb-4 text-sm text-slate-300">
+                        Card ending in 4242 <span class="text-green-400 ml-2"><i class="fas fa-check-circle"></i> Verified</span>
+                     </div>
+                     <button onclick="nextStep(3)" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg transition">Pay Now</button>
                 </div>
-
-                <!-- STEP 3: PROCESSING -->
+                
                 <div id="step-3" class="wizard-step hidden text-center py-10">
-                    <div class="w-16 h-16 border-4 border-sky-500 border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
-                    <h3 class="text-xl font-bold text-white mb-2" data-i18n="processing_title">Processing Order...</h3>
-                    <p class="text-slate-400 text-sm" data-i18n="processing_desc">Connecting to internal warehouse...</p>
+                    <div class="w-12 h-12 border-4 border-sky-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                    <div class="text-white font-bold">Processing...</div>
                 </div>
 
-                <!-- STEP 4: SUCCESS -->
                 <div id="step-4" class="wizard-step hidden text-center">
-                    <div class="w-20 h-20 bg-green-500/20 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6 animate-bounce">
-                        <i class="fas fa-check text-4xl"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-white mb-2" data-i18n="success_title">Order Confirmed!</h3>
-                    <p class="text-slate-400 mb-6" data-i18n="success_desc">Thank you. The package has been assigned to our direct logistics team.</p>
-                    <button onclick="closeCheckout()" class="w-full bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 rounded-lg transition" data-i18n="btn_close">
-                        Close
-                    </button>
+                    <div class="text-green-500 text-5xl mb-4"><i class="fas fa-check-circle"></i></div>
+                    <h3 class="text-2xl font-bold text-white mb-2">Order Confirmed!</h3>
+                    <button onclick="closeCheckout()" class="w-full bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 rounded-lg mt-4 transition">Close</button>
                 </div>
             </div>
         </div>
@@ -609,219 +465,22 @@
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
-        /* --- TIMER LOGIC --- */
-        // Set timer for 4 hours from now for demo purposes
-        let timeInSeconds = 4 * 60 * 60 + 42 * 60 + 18; 
-        
-        function updateTimer() {
-            const timerElement = document.getElementById('countdown-timer');
-            if(!timerElement) return;
-
-            let hours = Math.floor(timeInSeconds / 3600);
-            let minutes = Math.floor((timeInSeconds % 3600) / 60);
-            let seconds = timeInSeconds % 60;
-
-            timerElement.innerHTML = `
-                <div>${hours.toString().padStart(2, '0')}<span class="text-xs text-slate-500 block">HRS</span></div>:
-                <div>${minutes.toString().padStart(2, '0')}<span class="text-xs text-slate-500 block">MIN</span></div>:
-                <div>${seconds.toString().padStart(2, '0')}<span class="text-xs text-slate-500 block">SEC</span></div>
-            `;
-
-            if (timeInSeconds > 0) {
-                timeInSeconds--;
-            }
-        }
-        setInterval(updateTimer, 1000);
-        updateTimer();
-
-        /* --- TRANSLATIONS DICTIONARY --- */
+        /* --- TRANSLATIONS (Simplified for brevity, English default) --- */
         const translations = {
             en: {
-                nav_home: "Store", nav_tech: "Technology & IP", nav_team: "Team", nav_gov: "Corporate Governance",
-                btn_buy: "Pre-Order", urgency_text: "Launch Batch: Only 500 units available for direct shipping.",
-                timer_label: "Pre-Order Ends In:",
-                hero_badge: "Biphasic Release Tech",
-                hero_title_1: "Unlock Your", hero_title_2: "Cognitive Peak.",
-                hero_desc: "VitalCore presents NeuroSync™. The world's first biphasic nootropic. Direct-to-consumer model ensures pharmaceutical grade quality at 50% of the market cost.",
-                btn_buy_hero: "Buy Now - €49.90", btn_tech: "Discover Science",
-                
-                // Why Buy
-                why_title: "Why NeuroSync?", why_subtitle: "Clinically designed for High Performers",
-                res_1_title: "Instant Focus", res_1_desc: "Matrix A dissolves in 15 mins. No lag, just pure cognitive clarity when you need it.",
-                res_2_title: "Memory Retention", res_2_desc: "Liposomal Omega-3s support long-term neural health and information recall.",
-                res_3_title: "No Crash Energy", res_3_desc: "Sustained release prevents the dreaded afternoon slump. Consistent output for 6+ hours.",
-                
-                // Comparison
-                comp_title: "The Biphasic Advantage", comp_row1: "Release Mechanism", comp_row2: "Bioavailability", comp_row3: "Duration", comp_row4: "Price (Direct-to-Consumer)",
-                
-                // Reviews
-                reviews_title: "What Users Say",
-
-                // Tech
-                tech_title: "The Core Innovation", tech_intro: "Standard supplements suffer from low bioavailability. Incompatible ingredients degrade in the stomach acid before absorption. VitalCore solves this with Industrial Invention #IT-2025.",
-                tech_prob: "Traditional pills release everything at once. Acid-sensitive compounds like Omega-3 are destroyed by gastric pH (pH 1.5-3.5), reducing efficacy by up to 60%.",
-                tech_sol: "A Bi-Cameral Delivery System. We physically separate the ingredients into two distinct matrices with programmed release timings.",
-                matrix_a_title: "Matrix A: Immediate Release", matrix_a_desc: "Composition: Tyrosine, Ginseng, Methylated B-Vitamins. Mechanism: Rapid dissolution in the stomach for immediate cognitive uptake. Benefit: Instant focus within 15 minutes.",
-                matrix_b_title: "Matrix B: Protected Release", matrix_b_desc: "Composition: Omega-3s, Phosphatidylserine, Curcumin. Mechanism: Liposomal Encapsulation. Lipid spheres protect the payload from acid. Benefit: Long-term neuroprotection.",
-                tech_asset_val: "Patent Value: €30,000", tech_asset_desc: "This IP justifies the non-proportional equity split. Patrick (Founder) contributes this asset, not cash.",
-                
-                team_title: "Operational Team", team_subtitle: "VitalCore operates with Zero Employees. All 4 shareholders are active 'Working Partners' registered with INPS Traders Management.",
-                
-                gov_box1_title: "Ordinary S.r.l.", gov_box1_text: "We chose the Ordinary form to avoid the rigid Ministerial Statute of the S.r.l.s. We needed a 'Tailor-made' Statute to handle complex contributions and reserved matters.",
-                gov_box2_title: "Capital Structure", gov_box2_text: "Derogation Art. 2468 Civil Code: Shareholders' rights are NOT proportional to contributions.",
-                gov_box4_title: "Risk Management", gov_box4_intro: "The 'Killer Point' is protecting the company if Patrick leaves.",
-                gov_box3_title: "Administration: Sole Director", gov_box3_text: "Patrick is the Sole Director. In Lean E-commerce, speed is critical. A Board (CdA) is too bureaucratic for real-time supply chain decisions.",
-                gov_box3_sub: "Minority Protection (Reserved Matters)",
-                
-                checkout_title: "Secure Checkout", product_pack: "1 Month Supply (60 Caps)",
-                label_address: "Shipping Address", btn_proceed_payment: "Proceed to Payment",
-                payment_title: "Payment Details", label_cardholder: "Cardholder Name", label_cardnumber: "Card Number",
-                btn_pay: "Pay €49.90", processing_title: "Processing Order...", processing_desc: "Connecting to internal warehouse...",
-                success_title: "Order Confirmed!", success_desc: "Thank you. The package has been assigned to our direct logistics team.", btn_close: "Close"
+                nav_home: "Store", nav_tech: "Technology & IP", nav_team: "Team", nav_gov: "Governance",
+                btn_buy: "Buy Bundle",
+                hero_desc: "The world's first biphasic nootropic. Direct-to-consumer model ensures quality.",
+                team_title: "Operational Team", team_subtitle: "VitalCore operates with Zero Employees. All 4 shareholders are active 'Working Partners'."
             },
             it: {
-                nav_home: "Store", nav_tech: "Tecnologia & Brevetto", nav_team: "Team", nav_gov: "Governance",
-                btn_buy: "Pre-Ordine", urgency_text: "Lotto di Lancio: Solo 500 unità disponibili per spedizione diretta.",
-                timer_label: "Il Pre-Ordine Termina Tra:",
-                hero_badge: "Tecnologia Rilascio Bifasico",
-                hero_title_1: "Sblocca il tuo", hero_title_2: "Potenziale Cognitivo.",
-                hero_desc: "VitalCore presenta NeuroSync™. Il primo nootropico bifasico al mondo. Il modello Direct-to-consumer garantisce qualità farmaceutica al 50% del costo di mercato.",
-                btn_buy_hero: "Acquista Ora - €49.90", btn_tech: "Scopri la Scienza",
-                
-                why_title: "Perché NeuroSync?", why_subtitle: "Progettato clinicamente per High Performers",
-                res_1_title: "Focus Istantaneo", res_1_desc: "La Matrice A si dissolve in 15 minuti. Nessun ritardo, pura chiarezza cognitiva quando serve.",
-                res_2_title: "Memoria e Ritenzione", res_2_desc: "Omega-3 liposomiali supportano la salute neurale a lungo termine.",
-                res_3_title: "Energia Senza Crash", res_3_desc: "Il rilascio sostenuto previene il calo pomeridiano. Output costante per 6+ ore.",
-                
-                comp_title: "Il Vantaggio Bifasico", comp_row1: "Meccanismo di Rilascio", comp_row2: "Biodisponibilità", comp_row3: "Durata", comp_row4: "Prezzo (Diretto)",
-                reviews_title: "Cosa Dicono Gli Utenti",
-
-                tech_title: "L'Innovazione Centrale", tech_intro: "Gli integratori standard soffrono di bassa biodisponibilità. Ingredienti incompatibili si degradano nell'acido gastrico. VitalCore risolve questo problema con l'Invenzione Industriale #IT-2025.",
-                tech_prob: "Le pillole tradizionali rilasciano tutto insieme. Composti sensibili come gli Omega-3 vengono distrutti dal pH gastrico (pH 1.5-3.5), riducendo l'efficacia fino al 60%.",
-                tech_sol: "Un Sistema di Rilascio Bicamerale. Separiamo fisicamente gli ingredienti in due matrici distinte con tempi di rilascio programmati.",
-                matrix_a_title: "Matrice A: Rilascio Immediato", matrix_a_desc: "Composizione: Tirosina, Ginseng, Vitamine B Metilate. Meccanismo: Rapida dissoluzione nello stomaco per un uptake cognitivo immediato. Beneficio: Focus istantaneo in 15 minuti.",
-                matrix_b_title: "Matrice B: Rilascio Protetto", matrix_b_desc: "Composizione: Omega-3, Fosfatidilserina, Curcumina. Meccanismo: Incapsulamento Liposomiale. Sfere lipidiche proteggono il carico dall'acido. Beneficio: Neuroprotezione a lungo termine.",
-                tech_asset_val: "Valore Brevetto: €30,000", tech_asset_desc: "Questo IP giustifica la ripartizione non proporzionale delle quote. Patrick (Founder) conferisce questo asset, non denaro.",
-
-                team_title: "Team Operativo", team_subtitle: "VitalCore opera con Zero Dipendenti. Tutti i 4 soci sono 'Soci Lavoratori' (Working Partners) iscritti alla Gestione Commercianti INPS.",
-
-                gov_box1_title: "S.r.l. Ordinaria", gov_box1_text: "Abbiamo scelto la forma Ordinaria per evitare lo Statuto Ministeriale rigido della S.r.l.s. Avevamo bisogno di uno Statuto 'Su Misura' per gestire conferimenti complessi e materie riservate.",
-                gov_box2_title: "Struttura del Capitale", gov_box2_text: "Deroga Art. 2468 Cod. Civ.: I diritti dei soci NON sono proporzionali ai conferimenti.",
-                gov_box4_title: "Gestione del Rischio", gov_box4_intro: "Il 'Killer Point' è proteggere l'azienda se Patrick se ne va.",
-                gov_box3_title: "Amministrazione: Amm. Unico", gov_box3_text: "Patrick è l'Amministratore Unico. Nel Lean E-commerce, la velocità è critica. Un CdA è troppo burocratico per decisioni in tempo reale sulla supply chain.",
-                gov_box3_sub: "Tutela Minoranze (Materie Riservate)",
-
-                checkout_title: "Checkout Sicuro", product_pack: "Fornitura 1 Mese (60 Caps)",
-                label_address: "Indirizzo Spedizione", btn_proceed_payment: "Procedi al Pagamento",
-                payment_title: "Dettagli Pagamento", label_cardholder: "Titolare Carta", label_cardnumber: "Numero Carta",
-                btn_pay: "Paga €49.90", processing_title: "Elaborazione Ordine...", processing_desc: "Connessione al magazzino interno...",
-                success_title: "Ordine Confermato!", success_desc: "Grazie. Il pacco è stato assegnato alla logistica diretta interna.", btn_close: "Chiudi"
-            },
-            fr: {
-                nav_home: "Boutique", nav_tech: "Technologie & IP", nav_team: "Équipe", nav_gov: "Gouvernance",
-                btn_buy: "Pré-commander", urgency_text: "Lot de lancement: Seulement 500 unités disponibles.",
-                timer_label: "Fin pré-commande:",
-                hero_badge: "Tech Libération Biphasique",
-                hero_title_1: "Débloquez Votre", hero_title_2: "Pic Cognitif.",
-                hero_desc: "VitalCore présente NeuroSync™. Le premier nootropique biphasique au monde. Le modèle Direct-to-consumer assure une qualité pharmaceutique.",
-                btn_buy_hero: "Acheter - €49.90", btn_tech: "Découvrir la Science",
-                
-                why_title: "Pourquoi NeuroSync?", why_subtitle: "Conçu pour la haute performance",
-                res_1_title: "Focus Instantané", res_1_desc: "La Matrice A agit en 15 minutes.",
-                res_2_title: "Mémoire", res_2_desc: "Omega-3 liposomaux pour la santé neurale.",
-                res_3_title: "Énergie Stable", res_3_desc: "Pas de crash. Énergie pour 6+ heures.",
-                comp_title: "L'Avantage Biphasique", comp_row1: "Mécanisme", comp_row2: "Biodisponibilité", comp_row3: "Durée", comp_row4: "Prix",
-                reviews_title: "Avis Clients",
-
-                tech_title: "L'Innovation Centrale", tech_intro: "Les suppléments standard souffrent d'une faible biodisponibilité. VitalCore résout cela avec l'Invention Industrielle #IT-2025.",
-                tech_prob: "Les pilules traditionnelles libèrent tout en même temps. L'acide gastrique détruit les Omega-3, réduisant l'efficacité de 60%.",
-                tech_sol: "Un Système de Livraison Bi-Caméral. Nous séparons physiquement les ingrédients en deux matrices distinctes.",
-                matrix_a_title: "Matrice A: Libération Immédiate", matrix_a_desc: "Composition: Tyrosine, Ginseng. Mécanisme: Dissolution rapide pour une concentration instantanée.",
-                matrix_b_title: "Matrice B: Libération Protégée", matrix_b_desc: "Composition: Omega-3s. Mécanisme: Encapsulation Liposomale. Les sphères lipidiques protègent la charge de l'acide.",
-                tech_asset_val: "Valeur Brevet: €30,000", tech_asset_desc: "Cette IP justifie la répartition non proportionnelle des parts.",
-                team_title: "Équipe Opérationnelle", team_subtitle: "VitalCore opère avec Zéro Employés. Les 4 actionnaires sont des 'Partenaires Actifs'.",
-                gov_box1_title: "S.r.l. Ordinaire", gov_box1_text: "Nous avons choisi la forme Ordinaire pour éviter le statut rigide de la S.r.l.s. Besoin d'un statut 'Sur Mesure'.",
-                gov_box2_title: "Structure du Capital", gov_box2_text: "Dérogation Art. 2468 Code Civil: Droits non proportionnels aux apports.",
-                gov_box4_title: "Gestion des Risques", gov_box4_intro: "Le point critique est de protéger l'entreprise si Patrick part.",
-                gov_box3_title: "Admin: Directeur Unique", gov_box3_text: "Patrick est Directeur Unique pour la rapidité.",
-                gov_box3_sub: "Protection Minorité",
-                checkout_title: "Paiement Sécurisé", product_pack: "1 Mois (60 Caps)",
-                label_address: "Adresse", btn_proceed_payment: "Payer",
-                payment_title: "Détails Paiement", label_cardholder: "Titulaire", label_cardnumber: "Numéro",
-                btn_pay: "Payer €49.90", processing_title: "Traitement...", processing_desc: "Connexion à l'entrepôt...",
-                success_title: "Confirmé!", success_desc: "Merci. Colis assigné à la logistique.", btn_close: "Fermer"
-            },
-            de: {
-                nav_home: "Store", nav_tech: "Technologie", nav_team: "Team", nav_gov: "Governance",
-                btn_buy: "Vorbestellen", urgency_text: "Launch-Charge: Nur 500 Einheiten verfügbar.",
-                timer_label: "Vorbestellung endet in:",
-                hero_badge: "Zweiphasen-Technologie",
-                hero_title_1: "Entfesseln Sie", hero_title_2: "Kognitive Spitze.",
-                hero_desc: "VitalCore präsentiert NeuroSync™. Das erste zweiphasige Nootropikum. Direct-to-Consumer Modell sichert pharmazeutische Qualität.",
-                btn_buy_hero: "Kaufen - €49.90", btn_tech: "Wissenschaft Entdecken",
-                
-                why_title: "Warum NeuroSync?", why_subtitle: "Für High Performer",
-                res_1_title: "Sofortiger Fokus", res_1_desc: "Matrix A wirkt in 15 Minuten.",
-                res_2_title: "Gedächtnis", res_2_desc: "Liposomales Omega-3 für neuronale Gesundheit.",
-                res_3_title: "Kein Crash", res_3_desc: "Anhaltende Freisetzung für 6+ Stunden.",
-                comp_title: "Der Zweiphasen-Vorteil", comp_row1: "Mechanismus", comp_row2: "Bioverfügbarkeit", comp_row3: "Dauer", comp_row4: "Preis",
-                reviews_title: "Kundenmeinungen",
-
-                tech_title: "Kerninnovation", tech_intro: "Standard-Supplemente haben eine geringe Bioverfügbarkeit. VitalCore löst dies mit der Industriellen Erfindung #IT-2025.",
-                tech_prob: "Magensäure zerstört Omega-3 und reduziert die Wirksamkeit um 60%.",
-                tech_sol: "Ein Zweikammersystem. Wir trennen die Inhaltsstoffe physisch in zwei Matrizen.",
-                matrix_a_title: "Matrix A: Sofortfreisetzung", matrix_a_desc: "Zusammensetzung: Tyrosin, Ginseng. Mechanismus: Schnelle Auflösung für sofortigen Fokus.",
-                matrix_b_title: "Matrix B: Geschützte Freisetzung", matrix_b_desc: "Zusammensetzung: Omega-3. Mechanismus: Liposomale Verkapselung schützt vor Säure.",
-                tech_asset_val: "Patentwert: €30,000", tech_asset_desc: "Diese IP rechtfertigt die nicht-proportionale Anteilsverteilung.",
-                team_title: "Operatives Team", team_subtitle: "VitalCore arbeitet mit Null Mitarbeitern. Alle 4 Aktionäre sind aktive Partner.",
-                gov_box1_title: "Normale S.r.l.", gov_box1_text: "Wir wählten die normale Form, um starre Statuten zu vermeiden. Maßgeschneiderte Satzung nötig.",
-                gov_box2_title: "Kapitalstruktur", gov_box2_text: "Abweichung Art. 2468 ZGB: Rechte nicht proportional zu Einlagen.",
-                gov_box4_title: "Risikomanagement", gov_box4_intro: "Schutz des Unternehmens bei Austritt von Patrick.",
-                gov_box3_title: "Verwaltung: Alleingeschäftsführer", gov_box3_text: "Patrick ist Alleingeschäftsführer für Geschwindigkeit.",
-                gov_box3_sub: "Minderheitenschutz",
-                checkout_title: "Sichere Kasse", product_pack: "1 Monat (60 Kapseln)",
-                label_address: "Adresse", btn_proceed_payment: "Zur Zahlung",
-                payment_title: "Zahlungsdetails", label_cardholder: "Inhaber", label_cardnumber: "Nummer",
-                btn_pay: "Bezahlen €49.90", processing_title: "Bearbeitung...", processing_desc: "Verbindung zum Lager...",
-                success_title: "Bestätigt!", success_desc: "Danke. Paket an Logistik übergeben.", btn_close: "Schließen"
-            },
-            es: {
-                nav_home: "Tienda", nav_tech: "Tecnología", nav_team: "Equipo", nav_gov: "Gobernanza",
-                btn_buy: "Pre-Orden", urgency_text: "Lote de Lanzamiento: Solo 500 unidades disponibles.",
-                timer_label: "La Pre-Orden termina en:",
-                hero_badge: "Tecnología Bifásica",
-                hero_title_1: "Desbloquea Tu", hero_title_2: "Pico Cognitivo.",
-                hero_desc: "VitalCore presenta NeuroSync™. El primer nootrópico bifásico. Modelo directo al consumidor asegura calidad farmacéutica.",
-                btn_buy_hero: "Comprar - €49.90", btn_tech: "Descubrir Ciencia",
-                
-                why_title: "¿Por qué NeuroSync?", why_subtitle: "Diseñado para alto rendimiento",
-                res_1_title: "Enfoque Instantáneo", res_1_desc: "Matriz A actúa en 15 minutos.",
-                res_2_title: "Memoria", res_2_desc: "Omega-3 liposomal para salud neural.",
-                res_3_title: "Energía Estable", res_3_desc: "Sin bajón. Energía por 6+ horas.",
-                comp_title: "La Ventaja Bifásica", comp_row1: "Mecanismo", comp_row2: "Biodisponibilidad", comp_row3: "Duración", comp_row4: "Precio",
-                reviews_title: "Opiniones",
-
-                tech_title: "La Innovación Central", tech_intro: "Los suplementos estándar sufren de baja biodisponibilidad. VitalCore resuelve esto con la Invención Industrial #IT-2025.",
-                tech_prob: "El ácido estomacal destruye el Omega-3, reduciendo la eficacia en un 60%.",
-                tech_sol: "Sistema de Entrega Bicameral. Separamos físicamente los ingredientes.",
-                matrix_a_title: "Matriz A: Liberación Inmediata", matrix_a_desc: "Composición: Tirosina, Ginseng. Mecanismo: Disolución rápida para enfoque instantáneo.",
-                matrix_b_title: "Matriz B: Liberación Protegida", matrix_b_desc: "Composición: Omega-3. Mecanismo: Encapsulación Liposomal protege del ácido.",
-                tech_asset_val: "Valor Patente: €30,000", tech_asset_desc: "Esta IP justifica la división no proporcional de acciones.",
-                team_title: "Equipo Operativo", team_subtitle: "VitalCore opera con Cero Empleados. Los 4 accionistas son Socios Trabajadores.",
-                gov_box1_title: "S.r.l. Ordinaria", gov_box1_text: "Elegimos la forma Ordinaria para evitar el estatuto rígido de la S.r.l.s.",
-                gov_box2_title: "Estructura de Capital", gov_box2_text: "Derogación Art. 2468 C.C.: Derechos no proporcionales a aportes.",
-                gov_box4_title: "Gestión de Riesgos", gov_box4_intro: "Proteger la empresa si Patrick se va.",
-                gov_box3_title: "Admin: Administrador Único", gov_box3_text: "Patrick es Admin Único por velocidad.",
-                gov_box3_sub: "Protección Minoría",
-                checkout_title: "Pago Seguro", product_pack: "1 Mes (60 Caps)",
-                label_address: "Dirección", btn_proceed_payment: "Pagar",
-                payment_title: "Detalles Pago", label_cardholder: "Titular", label_cardnumber: "Número",
-                btn_pay: "Pagar €49.90", processing_title: "Procesando...", processing_desc: "Conectando almacén...",
-                success_title: "Confirmado!", success_desc: "Gracias. Paquete asignado a logística.", btn_close: "Cerrar"
+                nav_home: "Negozio", nav_tech: "Tecnologia", nav_team: "Team", nav_gov: "Governance",
+                btn_buy: "Acquista Box",
+                hero_desc: "Il primo nootropico bifasico al mondo. Modello diretto al consumatore.",
+                team_title: "Team Operativo", team_subtitle: "VitalCore opera con Zero Dipendenti. Tutti i 4 soci sono 'Soci Lavoratori'."
             }
         };
 
-        /* --- LOGIC --- */
         function changeLanguage(lang) {
             const elements = document.querySelectorAll('[data-i18n]');
             elements.forEach(el => {
@@ -841,7 +500,7 @@
             
             const selectedSection = document.getElementById(pageId);
             selectedSection.classList.add('active');
-            void selectedSection.offsetWidth; // Trigger reflow
+            void selectedSection.offsetWidth; 
             selectedSection.classList.add('fade-in');
 
             const navBtn = document.getElementById('nav-' + pageId);
@@ -851,8 +510,11 @@
 
         // Checkout Logic
         const modal = document.getElementById('checkout-modal');
-        function openCheckout() {
+        function openCheckout(productName, price) {
             modal.classList.remove('hidden');
+            document.getElementById('checkout-product-name').innerText = productName;
+            document.getElementById('checkout-product-price').innerText = '€ ' + price.toFixed(2);
+            
             document.getElementById('step-1').classList.remove('hidden');
             document.getElementById('step-2').classList.add('hidden');
             document.getElementById('step-3').classList.add('hidden');
@@ -864,7 +526,7 @@
             if(step === 2) document.getElementById('step-2').classList.remove('hidden');
             if(step === 3) {
                 document.getElementById('step-3').classList.remove('hidden');
-                setTimeout(() => nextStep(4), 2500);
+                setTimeout(() => nextStep(4), 1500);
             }
             if(step === 4) document.getElementById('step-4').classList.remove('hidden');
         }
