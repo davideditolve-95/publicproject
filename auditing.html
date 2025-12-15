@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TIM S.p.A. Internal Control Audit</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Chosen Palette: Warm Corporate -->
+    <!-- Primary Background: Stone-50 (#fafaf9) for a calm, paper-like feel -->
+    <!-- Text: Slate-800 (#1e293b) for high readability -->
+    <!-- Accents: Blue-900 (#1e3a8a) for headers/branding, Sky-500 (#0ea5e9) for interactive elements -->
+    
+    <!-- Application Structure Plan: 
+         1. Hero Section: Sets the stage (Auditing in Practice).
+         2. The Benchmark (COSO): Interactive cards explaining the standard.
+         3. Subject Profile (TIM): Quick stats and context.
+         4. The Core Analysis: A 5-tab interface mapping TIM to COSO components. This structure was chosen to prevent information overload and allow users to focus on one control component at a time (Environment, Risk, Activities, Info, Monitoring).
+         5. Risk Radar: Interactive Scatter Plot to visualize the "Likelihood vs Magnitude" matrix.
+         6. RAF Deep Dive: An interactive simulation tool. Users can "Run Simulation" to see how the Risk Profile fluctuates against Capacity/Appetite limits, reinforcing the "Monte Carlo" concept.
+         7. Conclusion: Summary cards.
+    -->
+
+    <!-- Visualization & Content Choices:
+         - COSO Principles: Grid of Cards (Goal: Inform/Organize). No SVG needed.
+         - 3 Lines of Defense: CSS Flexbox Diagram (Goal: Relationships).
+         - Risk Matrix: Chart.js Scatter Plot (Goal: Relationships/Compare). Highlighting specific risks like Cyber/Regulatory.
+         - RAF Simulation: Chart.js Line Chart with randomized data update (Goal: Change/Inform). illustrates the dynamic nature of the RAF process.
+         - Confirming NO SVG graphics used. NO Mermaid JS used.
+    -->
+
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <style>
+        /* Custom Chart Container Styles as per requirements */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px; /* Max width to prevent stretching */
+            margin-left: auto;
+            margin-right: auto;
+            height: 400px; /* Base height */
+            max-height: 500px;
+            background-color: white;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        @media (max-width: 768px) {
+            .chart-container {
+                height: 300px;
+            }
+        }
+
+        /* Utility for hiding elements */
+        .hidden-tab {
+            display: none;
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Custom Scrollbar for internal overflow */
+        .custom-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 3px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+    </style>
+</head>
+<body class="bg-stone-50 text-slate-800 font-sans antialiased leading-relaxed">
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 bg-white/95 backdrop-blur shadow-sm border-b border-stone-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-blue-900 text-xl font-bold tracking-tight">TIM Audit Analysis</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#benchmark" class="text-slate-600 hover:text-blue-700 text-sm font-medium transition-colors">COSO Benchmark</a>
+                    <a href="#analysis" class="text-slate-600 hover:text-blue-700 text-sm font-medium transition-colors">Core Analysis</a>
+                    <a href="#risks" class="text-slate-600 hover:text-blue-700 text-sm font-medium transition-colors">Risk Landscape</a>
+                    <a href="#raf" class="text-slate-600 hover:text-blue-700 text-sm font-medium transition-colors">RAF Deep Dive</a>
+                </div>
+                <!-- Mobile menu button placeholder (simplified) -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-slate-600 hover:text-blue-900 text-2xl">&#9776;</button>
+                </div>
+            </div>
+            <!-- Mobile Menu Dropdown -->
+            <div id="mobile-menu" class="hidden md:hidden pb-4 bg-white border-b border-stone-200">
+                <div class="flex flex-col space-y-2 px-2">
+                    <a href="#benchmark" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-stone-100">COSO Benchmark</a>
+                    <a href="#analysis" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-stone-100">Core Analysis</a>
+                    <a href="#risks" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-stone-100">Risk Landscape</a>
+                    <a href="#raf" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-stone-100">RAF Deep Dive</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative bg-blue-900 text-white overflow-hidden">
+        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:16px_16px]"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28 relative z-10">
+            <div class="lg:w-2/3">
+                <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-6 leading-tight">
+                    Auditing in Practice:<br>
+                    <span class="text-sky-300">TIM S.p.A.'s Internal Control System</span>
+                </h1>
+                <p class="text-lg md:text-xl text-blue-100 mb-8 max-w-3xl">
+                    An interactive case study evaluating a telecommunications giant against the global COSO 2013 Framework. Explore how TIM manages uncertainty, ensures compliance, and maintains operational efficiency.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="#benchmark" class="bg-sky-500 hover:bg-sky-400 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition transform hover:-translate-y-0.5">Start Audit</a>
+                    <div class="flex items-center space-x-2 text-blue-200 bg-blue-800/50 py-3 px-6 rounded-lg">
+                        <span class="text-xl">&#9878;</span>
+                        <span class="font-medium">COSO 2013 Standard</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Context: The Benchmark (COSO) -->
+    <section id="benchmark" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mb-10 text-center max-w-3xl mx-auto">
+            <h2 class="text-3xl font-bold text-blue-900 mb-4">The Benchmark: COSO 2013</h2>
+            <p class="text-slate-600 text-lg">
+                Before analyzing TIM, we must establish our yardstick. The COSO Framework is the global gold standard for internal controls, focusing on three core objectives supported by five integrated components.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            <!-- Objective Cards -->
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200 hover:shadow-md transition">
+                <div class="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-600 text-2xl mb-4 font-bold">&#9881;</div>
+                <h3 class="text-xl font-bold text-slate-800 mb-2">Operations</h3>
+                <p class="text-slate-600">Ensuring effectiveness and efficiency in daily business operations.</p>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200 hover:shadow-md transition">
+                <div class="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center text-amber-600 text-2xl mb-4 font-bold">&#128202;</div>
+                <h3 class="text-xl font-bold text-slate-800 mb-2">Reporting</h3>
+                <p class="text-slate-600">Reliability of financial and non-financial data published to stakeholders.</p>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200 hover:shadow-md transition">
+                <div class="w-12 h-12 bg-rose-100 rounded-full flex items-center justify-center text-rose-600 text-2xl mb-4 font-bold">&#9878;</div>
+                <h3 class="text-xl font-bold text-slate-800 mb-2">Compliance</h3>
+                <p class="text-slate-600">Adherence to applicable laws, regulations, and internal policies.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Context: Subject Profile -->
+    <section class="bg-white border-y border-stone-200 py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-3xl font-bold text-blue-900 mb-4">The Subject: TIM S.p.A.</h2>
+                    <p class="text-slate-600 mb-6 text-lg">
+                        TIM is a prime audit subject due to its complexity. A listed company on Euronext Milan, it operates in dual massive markets (Italy & Brazil) and manages a rapidly evolving tech portfolio involving Cloud, IoT, and Cybersecurity.
+                    </p>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="p-4 bg-stone-50 rounded-lg border border-stone-100">
+                            <div class="text-sm text-slate-500 uppercase font-semibold tracking-wider">Market Reach</div>
+                            <div class="text-2xl font-bold text-blue-900">Italy & Brazil</div>
+                        </div>
+                        <div class="p-4 bg-stone-50 rounded-lg border border-stone-100">
+                            <div class="text-sm text-slate-500 uppercase font-semibold tracking-wider">Governance</div>
+                            <div class="text-xl font-bold text-blue-900">Dual Board System</div>
+                        </div>
+                        <div class="p-4 bg-stone-50 rounded-lg border border-stone-100 col-span-2">
+                            <div class="text-sm text-slate-500 uppercase font-semibold tracking-wider">New Frontiers</div>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">Cloud Computing</span>
+                                <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">IoT</span>
+                                <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">Cybersecurity</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative h-64 lg:h-full bg-blue-50 rounded-2xl flex items-center justify-center border border-blue-100 overflow-hidden">
+                    <!-- CSS Abstract Representation of Connectivity -->
+                    <div class="absolute inset-0 flex items-center justify-center opacity-20">
+                         <div class="w-40 h-40 border-4 border-blue-500 rounded-full animate-ping"></div>
+                         <div class="absolute w-60 h-60 border-2 border-blue-400 rounded-full"></div>
+                         <div class="absolute w-20 h-20 bg-blue-600 rounded-full"></div>
+                    </div>
+                    <div class="relative z-10 text-center">
+                        <div class="text-6xl text-blue-900 font-bold mb-2">TIM</div>
+                        <div class="text-blue-700 tracking-widest font-semibold uppercase text-sm">Case Study</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CORE ANALYSIS: Interactive Tabs -->
+    <section id="analysis" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-stone-50">
+        <div class="mb-10">
+            <h2 class="text-3xl font-bold text-blue-900 mb-4">The Analysis: COSO Mapping</h2>
+            <p class="text-slate-600 text-lg max-w-4xl">
+                We have mapped TIM's internal controls against the five components of the COSO Framework. Click through the tabs below to explore the specific findings for each component.
+            </p>
+        </div>
+
+        <!-- Tabs Navigation -->
+        <div class="flex flex-wrap gap-2 mb-8 border-b border-stone-300 pb-2 overflow-x-auto">
+            <button onclick="switchTab('env')" id="tab-env" class="tab-btn px-6 py-3 rounded-t-lg font-semibold text-sm transition-colors bg-white text-blue-900 border-t border-x border-stone-200 shadow-sm ring-offset-2 focus:ring-2 ring-blue-500">I. Control Environment</button>
+            <button onclick="switchTab('risk')" id="tab-risk" class="tab-btn px-6 py-3 rounded-t-lg font-semibold text-sm transition-colors text-slate-500 hover:text-blue-800 hover:bg-stone-100">II. Risk Assessment</button>
+            <button onclick="switchTab('act')" id="tab-act" class="tab-btn px-6 py-3 rounded-t-lg font-semibold text-sm transition-colors text-slate-500 hover:text-blue-800 hover:bg-stone-100">III. Control Activities</button>
+            <button onclick="switchTab('info')" id="tab-info" class="tab-btn px-6 py-3 rounded-t-lg font-semibold text-sm transition-colors text-slate-500 hover:text-blue-800 hover:bg-stone-100">IV. Info & Comm</button>
+            <button onclick="switchTab('mon')" id="tab-mon" class="tab-btn px-6 py-3 rounded-t-lg font-semibold text-sm transition-colors text-slate-500 hover:text-blue-800 hover:bg-stone-100">V. Monitoring</button>
+        </div>
+
+        <!-- Tab Content Area -->
+        <div class="bg-white rounded-b-xl rounded-r-xl p-8 shadow-md border border-stone-200 min-h-[400px]">
+            
+            <!-- 1. Control Environment -->
+            <div id="content-env" class="tab-content animate-fade-in">
+                <h3 class="text-2xl font-bold text-blue-900 mb-6">The "Tone at the Top"</h3>
+                <p class="mb-6 text-slate-600">The foundation of the system. We identified formalized adherence to 5 key principles:</p>
+                <div class="grid gap-4">
+                    <div class="flex items-start p-4 border border-stone-200 rounded-lg bg-stone-50">
+                        <div class="text-green-500 text-xl mr-4">&#10004;</div>
+                        <div>
+                            <h4 class="font-bold text-slate-800">1. Integrity & Ethics</h4>
+                            <p class="text-sm text-slate-600">Comprehensive Code of Ethics with "zero-tolerance" policy.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start p-4 border border-stone-200 rounded-lg bg-stone-50">
+                        <div class="text-green-500 text-xl mr-4">&#10004;</div>
+                        <div>
+                            <h4 class="font-bold text-slate-800">2. Board Oversight</h4>
+                            <p class="text-sm text-slate-600">Bylaws mandate Board independence and direct ICS supervision.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start p-4 border border-stone-200 rounded-lg bg-stone-50">
+                        <div class="text-green-500 text-xl mr-4">&#10004;</div>
+                        <div>
+                            <h4 class="font-bold text-slate-800">3. Structure & Authority</h4>
+                            <p class="text-sm text-slate-600">"Group Regulations" clearly define subsidiary coordination.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Risk Assessment -->
+            <div id="content-risk" class="tab-content hidden-tab animate-fade-in">
+                <h3 class="text-2xl font-bold text-blue-900 mb-6">ERM Framework Lifecycle</h3>
+                <p class="mb-6 text-slate-600">TIM adopts a dynamic Enterprise Risk Management (ERM) process (COSO ERM 2017 / ISO 31000) driven by the ERM Steering Committee.</p>
+                
+                <div class="flex flex-col md:flex-row items-center justify-between gap-4 mt-8">
+                    <!-- Step 1 -->
+                    <div class="flex-1 bg-blue-50 p-6 rounded-lg text-center border border-blue-100 w-full relative group">
+                        <div class="text-4xl mb-2 text-blue-500">&#128269;</div>
+                        <h4 class="font-bold text-blue-900">1. Identify & Assess</h4>
+                        <p class="text-sm text-slate-600 mt-2">Market, Cyber, Climate, Fraud risks.</p>
+                        <!-- Arrow -->
+                        <div class="hidden md:block absolute -right-6 top-1/2 transform -translate-y-1/2 text-slate-300 text-2xl">&#10145;</div>
+                    </div>
+                    
+                    <!-- Step 2 -->
+                    <div class="flex-1 bg-blue-50 p-6 rounded-lg text-center border border-blue-100 w-full relative group">
+                        <div class="text-4xl mb-2 text-blue-500">&#128736;</div>
+                        <h4 class="font-bold text-blue-900">2. Manage & Mitigate</h4>
+                        <p class="text-sm text-slate-600 mt-2">Bring risks within appetite limits.</p>
+                        <!-- Arrow -->
+                        <div class="hidden md:block absolute -right-6 top-1/2 transform -translate-y-1/2 text-slate-300 text-2xl">&#10145;</div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="flex-1 bg-blue-50 p-6 rounded-lg text-center border border-blue-100 w-full">
+                        <div class="text-4xl mb-2 text-blue-500">&#128203;</div>
+                        <h4 class="font-bold text-blue-900">3. Assure & Report</h4>
+                        <p class="text-sm text-slate-600 mt-2">Update Risk Profile for the Board.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Control Activities -->
+            <div id="content-act" class="tab-content hidden-tab animate-fade-in">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-2xl font-bold text-blue-900 mb-4">Three Lines of Defense</h3>
+                        <p class="text-slate-600 mb-6">TIM's structure ensures clear separation of duties between those who take risks and those who check them.</p>
+                        
+                        <!-- Visual Stack -->
+                        <div class="space-y-2">
+                            <div class="bg-emerald-100 border-l-4 border-emerald-500 p-4 rounded-r-md">
+                                <span class="font-bold text-emerald-800 block">3rd Line: Assurance</span>
+                                <span class="text-sm text-emerald-700">Internal Audit (Reports to Board)</span>
+                            </div>
+                            <div class="bg-amber-100 border-l-4 border-amber-500 p-4 rounded-r-md w-[90%]">
+                                <span class="font-bold text-amber-800 block">2nd Line: Oversight</span>
+                                <span class="text-sm text-amber-700">ERM, Compliance, Security Functions</span>
+                            </div>
+                            <div class="bg-blue-100 border-l-4 border-blue-500 p-4 rounded-r-md w-[80%]">
+                                <span class="font-bold text-blue-900 block">1st Line: Management</span>
+                                <span class="text-sm text-blue-800">Operational Managers & Risk Owners</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-blue-900 mb-4">Key Policy Examples</h3>
+                        <ul class="space-y-4">
+                            <li class="p-4 bg-stone-50 rounded border border-stone-200">
+                                <strong class="text-blue-800 block">Anti-Corruption (ISO 37001)</strong>
+                                <span class="text-slate-600 text-sm">Strict prohibition of "facilitation payments". Tightly regulated gifts.</span>
+                            </li>
+                            <li class="p-4 bg-stone-50 rounded border border-stone-200">
+                                <strong class="text-blue-800 block">Modello 231</strong>
+                                <span class="text-slate-600 text-sm">Maps criminal liabilities to activities. Overseen by Supervisory Body (SB).</span>
+                            </li>
+                            <li class="p-4 bg-stone-50 rounded border border-stone-200">
+                                <strong class="text-blue-800 block">Financial Reporting</strong>
+                                <span class="text-slate-600 text-sm">Dedicated "Officer Responsible" ensures accounting procedure compliance.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Info & Comm -->
+            <div id="content-info" class="tab-content hidden-tab animate-fade-in">
+                <h3 class="text-2xl font-bold text-blue-900 mb-6">Information Flows</h3>
+                <p class="mb-6 text-slate-600">Controls are useless if not communicated. TIM manages flow in four critical directions:</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="p-5 border border-stone-200 rounded-lg hover:bg-stone-50 transition">
+                        <div class="font-bold text-blue-800 mb-1">&#8593; Upward/Downward</div>
+                        <p class="text-sm text-slate-600">Executive Directors report quarterly to the Board on operations.</p>
+                    </div>
+                    <div class="p-5 border border-stone-200 rounded-lg hover:bg-stone-50 transition">
+                        <div class="font-bold text-blue-800 mb-1">&#8594; Internal</div>
+                        <p class="text-sm text-slate-600">Code of Ethics disseminated via Intranet & mandatory training.</p>
+                    </div>
+                    <div class="p-5 border border-stone-200 rounded-lg hover:bg-stone-50 transition">
+                        <div class="font-bold text-blue-800 mb-1">&#8592; External Market</div>
+                        <p class="text-sm text-slate-600">Strict Investor Relations protocol for transparency & fairness.</p>
+                    </div>
+                    <div class="p-5 border border-stone-200 rounded-lg bg-red-50 hover:bg-red-100 transition border-red-100">
+                        <div class="font-bold text-red-800 mb-1">&#9888; Whistleblowing</div>
+                        <p class="text-sm text-red-700">Protected anonymous channels for reporting violations.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. Monitoring -->
+            <div id="content-mon" class="tab-content hidden-tab animate-fade-in">
+                <h3 class="text-2xl font-bold text-blue-900 mb-6">Who Watches the Watchers?</h3>
+                <div class="flex flex-col md:flex-row gap-8">
+                    <div class="flex-1 bg-stone-50 p-6 rounded-lg border border-stone-200">
+                        <h4 class="font-bold text-slate-800 mb-4 border-b border-stone-300 pb-2">Ongoing Monitoring</h4>
+                        <p class="text-sm text-slate-600 mb-2"><strong>Frequency:</strong> Daily/Continuous</p>
+                        <p class="text-sm text-slate-600"><strong>Who:</strong> Operational Management</p>
+                        <p class="text-sm text-slate-600 mt-2">Supervising teams and routine processes.</p>
+                    </div>
+                    <div class="flex-1 bg-stone-50 p-6 rounded-lg border border-stone-200">
+                        <h4 class="font-bold text-slate-800 mb-4 border-b border-stone-300 pb-2">Separate Evaluations</h4>
+                        <p class="text-sm text-slate-600 mb-2"><strong>Frequency:</strong> Periodic</p>
+                        <ul class="text-sm text-slate-600 list-disc pl-5 space-y-2">
+                            <li><strong>Internal Audit:</strong> Verifies whole ICS.</li>
+                            <li><strong>Supervisory Body (OdV):</strong> Checks 231 compliance.</li>
+                            <li><strong>Statutory Auditors:</strong> Oversees overall effectiveness.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RISK LANDSCAPE (Charts) -->
+    <section id="risks" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl font-bold text-blue-900 mb-4">The Risk Landscape</h2>
+        <p class="text-slate-600 mb-8 max-w-3xl">
+            TIM prioritizes risks using a "Likelihood vs. Magnitude" matrix. Hover over the data points below to see the specific high-priority risks identified in the audit.
+        </p>
+        
+        <div class="bg-white p-6 rounded-xl shadow-lg border border-stone-200">
+            <div class="chart-container">
+                <canvas id="riskScatterChart"></canvas>
+            </div>
+            <div class="mt-4 flex justify-center gap-6 text-sm text-slate-500">
+                <div class="flex items-center"><span class="w-3 h-3 bg-red-500 rounded-full mr-2"></span> High Priority</div>
+                <div class="flex items-center"><span class="w-3 h-3 bg-yellow-500 rounded-full mr-2"></span> Medium Priority</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RAF DEEP DIVE (Interactive Simulation) -->
+    <section id="raf" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-stone-50 border-t border-stone-200">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+            <!-- Left: Explanation -->
+            <div class="lg:col-span-1">
+                <h2 class="text-3xl font-bold text-blue-900 mb-4">Deep Dive: RAF</h2>
+                <div class="text-sm font-semibold text-sky-600 uppercase tracking-wide mb-4">Risk Appetite Framework</div>
+                <p class="text-slate-600 mb-6">
+                    TIM manages risk mathematically using the RAF. This moves beyond compliance into strategy.
+                </p>
+                <div class="space-y-4">
+                    <div class="p-4 bg-white rounded border border-stone-200 shadow-sm">
+                        <strong class="text-slate-800">Risk Capacity</strong>
+                        <p class="text-xs text-slate-500">Max risk before technical/financial collapse.</p>
+                    </div>
+                    <div class="p-4 bg-white rounded border border-stone-200 shadow-sm">
+                        <strong class="text-slate-800">Risk Appetite</strong>
+                        <p class="text-xs text-slate-500">Risk willing to accept for profit.</p>
+                    </div>
+                    <div class="p-4 bg-white rounded border border-stone-200 shadow-sm">
+                        <strong class="text-slate-800">Risk Profile</strong>
+                        <p class="text-xs text-slate-500">Actual risk level right now.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Interactive Chart -->
+            <div class="lg:col-span-2">
+                <div class="bg-white p-6 rounded-xl shadow-lg border border-stone-200">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="font-bold text-slate-800">RAF Monitoring: Monte Carlo Simulation</h3>
+                        <button onclick="runSimulation()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-sm font-medium transition shadow">
+                            &#9654; Run Simulation
+                        </button>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="rafChart"></canvas>
+                    </div>
+                    <p class="text-xs text-slate-400 mt-2 italic text-center">
+                        *Simulates the quarterly review process where the actual Risk Profile is checked against Appetite and Capacity limits.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Conclusion -->
+    <section class="py-16 bg-blue-900 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold mb-8 text-center">Auditing Verdict: Key Strengths</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-blue-800 p-6 rounded-lg border border-blue-700">
+                    <div class="text-sky-300 text-2xl mb-3 font-bold">&#10024;</div>
+                    <h4 class="font-bold mb-2">Mature ERM</h4>
+                    <p class="text-sm text-blue-200">Use of quantitative simulations (Monte Carlo) demonstrates sophistication.</p>
+                </div>
+                <div class="bg-blue-800 p-6 rounded-lg border border-blue-700">
+                    <div class="text-sky-300 text-2xl mb-3 font-bold">&#9813;</div>
+                    <h4 class="font-bold mb-2">Tone at the Top</h4>
+                    <p class="text-sm text-blue-200">Active Board engagement in defining and monitoring the system.</p>
+                </div>
+                <div class="bg-blue-800 p-6 rounded-lg border border-blue-700">
+                    <div class="text-sky-300 text-2xl mb-3 font-bold">&#128214;</div>
+                    <h4 class="font-bold mb-2">Robust Policies</h4>
+                    <p class="text-sm text-blue-200">Detailed zero-tolerance policies, especially in anti-corruption.</p>
+                </div>
+                <div class="bg-blue-800 p-6 rounded-lg border border-blue-700">
+                    <div class="text-sky-300 text-2xl mb-3 font-bold">&#9878;</div>
+                    <h4 class="font-bold mb-2">Checks & Balances</h4>
+                    <p class="text-sm text-blue-200">Strong web of assurance via Internal Audit and Statutory Auditors.</p>
+                </div>
+            </div>
+            <div class="text-center mt-12 text-blue-300 text-sm">
+                &copy; 2025 Audit Analysis. Based on TIM S.p.A. Internal Control System Report.
+            </div>
+        </div>
+    </section>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // --- Tab Navigation Logic ---
+        function switchTab(tabId) {
+            // Hide all content
+            document.querySelectorAll('.tab-content').forEach(el => {
+                el.classList.add('hidden-tab');
+            });
+            // Reset all buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-white', 'text-blue-900', 'border-t', 'border-x', 'border-stone-200', 'ring-2', 'ring-blue-500', 'ring-offset-2', 'shadow-sm');
+                btn.classList.add('text-slate-500', 'hover:text-blue-800', 'hover:bg-stone-100');
+            });
+
+            // Show selected content
+            document.getElementById('content-' + tabId).classList.remove('hidden-tab');
+            
+            // Highlight selected button
+            const activeBtn = document.getElementById('tab-' + tabId);
+            activeBtn.classList.remove('text-slate-500', 'hover:text-blue-800', 'hover:bg-stone-100');
+            activeBtn.classList.add('bg-white', 'text-blue-900', 'border-t', 'border-x', 'border-stone-200', 'ring-2', 'ring-blue-500', 'ring-offset-2', 'shadow-sm');
+        }
+
+        // Initialize first tab state visual
+        document.addEventListener('DOMContentLoaded', () => {
+             switchTab('env');
+             initRiskChart();
+             initRAFChart();
+        });
+
+        // --- Mobile Menu Toggle ---
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // --- Chart 1: Risk Landscape (Scatter) ---
+        let riskChart;
+        function initRiskChart() {
+            const ctx = document.getElementById('riskScatterChart').getContext('2d');
+            riskChart = new Chart(ctx, {
+                type: 'scatter',
+                data: {
+                    datasets: [{
+                        label: 'Key Risks',
+                        data: [
+                            { x: 8, y: 9, r: 15, label: 'Cybersecurity' },
+                            { x: 9, y: 7, r: 12, label: 'Regulatory Compliance' },
+                            { x: 7, y: 8, r: 10, label: 'Market Competition' },
+                            { x: 4, y: 5, r: 8, label: 'Operational Fraud' },
+                            { x: 6, y: 4, r: 8, label: 'Climate Change' }
+                        ],
+                        backgroundColor: function(context) {
+                            const val = context.raw;
+                            if (!val) return '#94a3b8';
+                            // Heatmap coloring logic
+                            if (val.x + val.y > 14) return 'rgba(239, 68, 68, 0.8)'; // Red
+                            if (val.x + val.y > 10) return 'rgba(234, 179, 8, 0.8)'; // Yellow
+                            return 'rgba(59, 130, 246, 0.8)'; // Blue
+                        }
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            min: 0,
+                            max: 10,
+                            title: { display: true, text: 'Likelihood (1-10)' }
+                        },
+                        y: {
+                            min: 0,
+                            max: 10,
+                            title: { display: true, text: 'Magnitude of Impact (1-10)' }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.raw.label + ` (L: ${context.raw.x}, M: ${context.raw.y})`;
+                                }
+                            }
+                        },
+                        legend: { display: false }
+                    }
+                }
+            });
+        }
+
+        // --- Chart 2: RAF Simulation (Line) ---
+        let rafChart;
+        const capacityVal = 90;
+        const appetiteVal = 75;
+        const toleranceVal = 82;
+
+        function initRAFChart() {
+            const ctx = document.getElementById('rafChart').getContext('2d');
+            
+            // Initial data: Risk Profile is compliant
+            const initialData = [50, 55, 60, 58, 62, 65, 60, 58, 60, 63, 65, 60];
+
+            rafChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    datasets: [
+                        {
+                            label: 'Risk Capacity (Hard Limit)',
+                            data: Array(12).fill(capacityVal),
+                            borderColor: 'rgba(239, 68, 68, 1)', // Red
+                            borderWidth: 2,
+                            borderDash: [5, 5],
+                            pointRadius: 0,
+                            fill: false
+                        },
+                        {
+                            label: 'Risk Tolerance',
+                            data: Array(12).fill(toleranceVal),
+                            borderColor: 'rgba(245, 158, 11, 1)', // Orange
+                            borderWidth: 2,
+                            borderDash: [10, 5],
+                            pointRadius: 0,
+                            fill: false
+                        },
+                        {
+                            label: 'Risk Appetite (Target)',
+                            data: Array(12).fill(appetiteVal),
+                            borderColor: 'rgba(16, 185, 129, 1)', // Green
+                            borderWidth: 2,
+                            pointRadius: 0,
+                            fill: false
+                        },
+                        {
+                            label: 'Actual Risk Profile',
+                            data: initialData,
+                            borderColor: 'rgba(37, 99, 235, 1)', // Blue
+                            backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    scales: {
+                        y: {
+                            min: 0,
+                            max: 100,
+                            title: { display: true, text: 'Risk Exposure Level' }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Simulation Logic: Randomize the "Risk Profile" data
+        function runSimulation() {
+            if (!rafChart) return;
+
+            // Generate random risk profile data
+            // Some scenarios might breach tolerance (Simulate "Mitigation" trigger)
+            const newData = [];
+            let currentLevel = 50;
+            
+            for (let i = 0; i < 12; i++) {
+                // Random fluctuation
+                const change = (Math.random() - 0.45) * 15; 
+                currentLevel += change;
+                // Clamp limits
+                if(currentLevel < 20) currentLevel = 20;
+                if(currentLevel > 95) currentLevel = 95;
+                newData.push(currentLevel);
+            }
+
+            rafChart.data.datasets[3].data = newData;
+            rafChart.update();
+        }
+
+    </script>
+</body>
+</html>
